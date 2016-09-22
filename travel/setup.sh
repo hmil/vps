@@ -20,7 +20,7 @@ if [ -z "$input" ] || [ "$input" = "Y" ] || [ "$input" = "y" ]; then
   echo "Enter the path to the sql dump"
   read dump_file
   echo "Creating mysql container"
-  sudo docker run --name dump \
+  docker run --name dump \
     -v "${DISK_ROOT}/travel/mysql:/var/lib/mysql" \
     -e "MYSQL_ROOT_PASSWORD=${TRAVEL_MYSQL_ROOT_PASSWORD}" \
     -e "MYSQL_DATABASE=${TRAVEL_MYSQL_DATABASE}" \
@@ -29,8 +29,11 @@ if [ -z "$input" ] || [ "$input" = "Y" ] || [ "$input" = "y" ]; then
     -d mysql:5.7
   wait_for_mysql
   echo "Applying sql dump"
-  sudo docker run -i --link dump:mysql --rm mysql sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -utravel -pu6U7erz3ZxP92Bu' < "$dump_file"
+  docker run -i --link dump:mysql --rm mysql sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -utravel -pu6U7erz3ZxP92Bu' < "$dump_file"
   echo "Cleaning containers"
-  sudo docker stop dump
-  sudo docker rm dump
+  docker stop dump
+  docker rm dump
 fi
+
+echo "Patching wordpress config for reverse-proxy"
+docker-compose exec wordpress sh -c 'echo "\$_SERVER[\"HTTPS\"]=\$_SERVER[\"HTTPS\"];" >> wp-config.php'

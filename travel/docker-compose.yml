@@ -14,7 +14,7 @@ services:
   wordpress:
     working_dir: /var/www/html
     ports:
-      - 8000:80
+      - "8000:80"
     volumes:
      - ${DISK_ROOT}/travel/wp-content/:/var/www/html/wp-content
     depends_on:

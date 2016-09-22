@@ -24,13 +24,14 @@ configure() {
     if [ "$input" -eq 2 ]; then
       echo "export VPS_HOME=\"$script_dir\"" >> ~/.bashrc
       export VPS_HOME="$script_dir"
-    else
-      exit 1
+      echo "please source your bashrc"
     fi
+    exit 1
   fi
 
   if [ ! -e "$VPS_HOME/env" ]; then
-    echo "Please add the env file"
+    echo "env file is missing, aborting"
+    exit 1
   fi
 
   source_config

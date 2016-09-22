@@ -1,0 +1,17 @@
+server {
+  listen 80;
+  listen 443 ssl;
+
+  ssl_certificate   /mnt/data/cert/live/travel.hmil.fr/fullchain.pem;
+  ssl_certificate_key /mnt/data/cert/live/travel.hmil.fr/privkey.pem;
+  ssl_protocols   SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers   HIGH:!aNULL:!MD5;
+
+  server_name travel.hmil.fr;
+
+  location / {
+    proxy_pass http://localhost:8000/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}
