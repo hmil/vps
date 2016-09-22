@@ -1,0 +1,101 @@
+#!/bin/sh
+
+VERSION=1
+
+source_config() {
+  if [ -e "$VPS_HOME/.config" ]; then
+    . "$VPS_HOME/.config"
+  fi
+}
+
+configure() {
+
+  echo "##########################"
+  echo "### Awesome vps config ###"
+  echo "##########################"
+
+  if [ -z "$VPS_HOME" ]; then
+    script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+    echo "Please set your VPS_HOME environment variable"
+    echo "[1]: Ok"
+    echo "2: I'm too lazy, set it to '$script_dir' for me"
+    read input
+    if [ "$input" -eq 2 ]; then
+      echo "export VPS_HOME=\"$script_dir\"" >> ~/.bashrc
+      export VPS_HOME="$script_dir"
+    else
+      exit 1
+    fi
+  fi
+
+  if [ ! -e "$VPS_HOME/env" ]; then
+    echo "Please add the env file"
+  fi
+
+  source_config
+
+  default_disk_root="/mnt/data"
+  echo "Enter the data disk root ($default_disk_root)"
+  read DISK_ROOT
+  if [ -z "$DISK_ROOT" ]; then
+    DISK_ROOT="$default_disk_root"
+  fi
+
+  cat > "$VPS_HOME/.config" <<EOF
+export VPS_CONFIG_VERSION=$VERSION
+export DISK_ROOT=$DISK_ROOT
+EOF
+}
+
+do_setup() {
+  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
+    cd "$VPS_HOME/$1"
+    sh "./setup.sh"
+  else
+    echo "Invalid project name: $1"
+  fi
+}
+
+do_start() {
+  if [ -e "$VPS_HOME/$1/start.sh" ]; then
+    cd "$VPS_HOME/$1"
+    sh "./start.sh"
+  else
+    echo "Invalid project name: $1"
+  fi
+}
+
+do_stop() {
+  if [ -e "$VPS_HOME/$1/stop.sh" ]; then
+    cd "$VPS_HOME/$1"
+    sh "./stop.sh"
+  else
+    echo "Invalid project name: $1"
+  fi
+}
+
+source_config
+
+if [ -z "$VPS_CONFIG_VERSION" ] || [ "$VPS_CONFIG_VERSION" -lt "$VERSION" ]; then
+  echo "Project is not configured, running config"
+  configure
+  if [ "$?" -ne 0 ]; then
+    exit 1
+  fi
+fi
+
+. "$VPS_HOME/.config"
+
+
+case $1 in
+  "setup" )
+    do_setup $2
+    ;;
+  "start" )
+    do_start $2
+    ;;
+  "stop" )
+    do_stop $2
+    ;;
+esac
