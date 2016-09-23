@@ -16,6 +16,7 @@ if [ "$?" -ne 0 ]; then
 fi
 
 travel="travel travel.hmil.fr"
+files="files files.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -28,7 +29,10 @@ case $1 in
   "travel" )
     setup $travel
     ;;
-  "" )
+  "files" )
+    setup $files
+    ;;
+  "all" )
     setup $travel
     ;;
   * )

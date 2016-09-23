@@ -1,15 +1,15 @@
 
 
 setup() {
-  cp "$VPS_HOME/proxy/sites/$1" "/etc/nginx/sites-enabled/$1"
+  envsubst < "$VPS_HOME/proxy/sites/$1" > "/etc/nginx/sites-enabled/$1"
 }
 
 case "$1" in 
   "travel" )
     setup travel
   ;;
-  "" )
-    setup travel
+  "files" )
+    setup files
   ;;
   * )
     echo "invalid target: $1"
