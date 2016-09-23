@@ -1,6 +1,6 @@
 wait_for_mysql() {
   echo "Waiting for mysql..."
-  while ! sudo docker run --link dump:mysql --rm mysql sh -c 'mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -utravel -pu6U7erz3ZxP92Bu' >/dev/null; do
+  while ! docker run --link dump:mysql --rm mysql sh -c 'mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -utravel -pu6U7erz3ZxP92Bu' >/dev/null; do
     sleep 3
     echo "Mysql is not ready..."
   done

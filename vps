@@ -50,6 +50,8 @@ EOF
 }
 
 do_setup() {
+  rm /etc/nginx/sites-enabled/$1
+  cp sites/$1 /etc/nginx/sites-enabled/
   if [ -e "$VPS_HOME/$1/setup.sh" ]; then
     cd "$VPS_HOME/$1"
     sh "./setup.sh"
@@ -59,9 +61,9 @@ do_setup() {
 }
 
 do_start() {
-  if [ -e "$VPS_HOME/$1/start.sh" ]; then
+  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
     cd "$VPS_HOME/$1"
-    sh "./start.sh"
+    docker-compose up -d
   else
     echo "Invalid project name: $1"
   fi
@@ -70,7 +72,16 @@ do_start() {
 do_stop() {
   if [ -e "$VPS_HOME/$1/stop.sh" ]; then
     cd "$VPS_HOME/$1"
-    sh "./stop.sh"
+    docker-compose down
+  else
+    echo "Invalid project name: $1"
+  fi
+}
+
+do_remove() {
+  if [ -e "$VPS_HOME/$1/stop.sh" ]; then
+    cd "$VPS_HOME/$1"
+    docker-compose rm
   else
     echo "Invalid project name: $1"
   fi
