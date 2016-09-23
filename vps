@@ -50,11 +50,10 @@ EOF
 }
 
 do_setup() {
-  rm /etc/nginx/sites-enabled/$1
-  cp sites/$1 /etc/nginx/sites-enabled/
   if [ -e "$VPS_HOME/$1/setup.sh" ]; then
     cd "$VPS_HOME/$1"
-    sh "./setup.sh"
+    shift
+    sh "./setup.sh" $@
   else
     echo "Invalid project name: $1"
   fi
@@ -70,7 +69,7 @@ do_start() {
 }
 
 do_stop() {
-  if [ -e "$VPS_HOME/$1/stop.sh" ]; then
+  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
     cd "$VPS_HOME/$1"
     docker-compose down
   else
@@ -79,12 +78,19 @@ do_stop() {
 }
 
 do_remove() {
-  if [ -e "$VPS_HOME/$1/stop.sh" ]; then
+  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
     cd "$VPS_HOME/$1"
-    docker-compose rm
+    shift
+    sh "./remove.sh" $@
   else
     echo "Invalid project name: $1"
   fi
+}
+
+do_logs() {
+  cd "$VPS_HOME/$1"
+  shift
+  docker-compose logs $@
 }
 
 source_config
@@ -98,16 +104,27 @@ if [ -z "$VPS_CONFIG_VERSION" ] || [ "$VPS_CONFIG_VERSION" -lt "$VERSION" ]; the
 fi
 
 . "$VPS_HOME/.config"
+. "$VPS_HOME/env"
 
-
-case $1 in
+cmd="$1"
+shift
+case $cmd in
   "setup" )
-    do_setup $2
+    do_setup $@
     ;;
   "start" )
-    do_start $2
+    do_start $@
     ;;
   "stop" )
-    do_stop $2
+    do_stop $@
+    ;;
+  "remove" )
+    do_remove $@
+    ;;
+  "logs" )
+    do_logs $@
+    ;;
+  * )
+    echo "invalid command: $cmd"
     ;;
 esac
