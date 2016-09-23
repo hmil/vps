@@ -24,4 +24,7 @@ fi
 echo "Patching wordpress config for reverse-proxy"
 docker-compose exec wordpress sh -c 'echo "\$_SERVER[\"HTTPS\"]=\$_SERVER[\"HTTPS\"];" >> wp-config.php'
 
+echo "Ensuring folder access rights"
+chown -R www-data:www-data "${DISK_ROOT}/travel/wp-content/"
+
 docker-compose down

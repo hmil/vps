@@ -17,6 +17,7 @@ services:
       - "8000:80"
     volumes:
      - ${DISK_ROOT}/travel/wp-content/:/var/www/html/wp-content
+     - ${VPS_HOME}/travel/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     depends_on:
       - db
     image: wordpress:latest
