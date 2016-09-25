@@ -11,6 +11,14 @@ case "$1" in
   "files" )
     setup files
   ;;
+  "transmission" )
+    setup transmission
+  ;;
+  "all" )
+    setup files
+    setup travel
+    setup transmission
+  ;;
   * )
     echo "invalid target: $1"
     exit 1  

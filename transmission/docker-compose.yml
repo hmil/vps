@@ -1,0 +1,17 @@
+version: '2'
+services:
+  worker:
+    image: linuxserver/transmission
+    volumes:
+      - "${DISK_ROOT}/transmission/config:/config"
+      - "${DISK_ROOT}/files/downloads:/downloads"
+      - "${DISK_ROOT}/transmission/watch:/watch"
+    ports:
+      - "127.0.0.1:${PORT_TRANSMISSION}:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    restart: always
+    environment:
+      PGID: ${WWW_DATA_GID}
+      PUID: ${WWW_DATA_UID}
+

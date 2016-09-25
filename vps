@@ -1,6 +1,7 @@
 #!/bin/sh
 
-VERSION=1
+export VERSION=1
+export DOLLAR='$'
 
 source_config() {
   if [ -e "$VPS_HOME/.config" ]; then
@@ -105,6 +106,7 @@ fi
 
 . "$VPS_HOME/.config"
 . "$VPS_HOME/env"
+. "$VPS_HOME/ports"
 
 cmd="$1"
 shift

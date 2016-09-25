@@ -1,0 +1,3 @@
+# Port assignments
+export PORT_TRAVEL=8000
+export PORT_TRANSMISSION=8001

@@ -17,6 +17,7 @@ fi
 
 travel="travel travel.hmil.fr"
 files="files files.hmil.fr"
+transmission="transmission transmission.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -31,6 +32,9 @@ case $1 in
     ;;
   "files" )
     setup $files
+    ;;
+  "transmission" )
+    setup $transmission
     ;;
   "all" )
     setup $travel
