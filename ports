@@ -1,3 +1,4 @@
 # Port assignments
 export PORT_TRAVEL=8000
 export PORT_TRANSMISSION=8001
+export PORT_BLOG=8002

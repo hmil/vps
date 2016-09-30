@@ -14,7 +14,7 @@ services:
   wordpress:
     working_dir: /var/www/html
     ports:
-      - "127.0.0.1:${PORT_TRAVEL}:80"
+      - "127.0.0.1:${PORT_BLOG}:80"
     volumes:
      - ${DISK_ROOT}/blog/wp-content/:/var/www/html/wp-content
      - ${VPS_HOME}/blog/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
