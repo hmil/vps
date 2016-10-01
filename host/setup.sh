@@ -18,4 +18,7 @@ curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose
 chmod +x /usr/local/bin/docker-compose
 EOF
 
+# Utilities
+apt-get install zip
+
 echo "Done."
