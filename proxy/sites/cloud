@@ -20,6 +20,8 @@ server {
   ssl_ciphers   HIGH:!aNULL:!MD5;
 
   server_name cloud.hmil.fr;
+  
+  client_max_body_size 0; # disable
 
   location / {
     proxy_pass http://localhost:${PORT_CLOUD}/;
