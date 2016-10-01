@@ -1,0 +1,33 @@
+server {
+  listen 80;
+  server_name cloud.hmil.fr;
+
+  location / {
+    return 302 https://cloud.hmil.fr;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/cloud;
+  }
+}
+
+server {
+  listen 443 ssl;
+
+  ssl_certificate   /etc/letsencrypt/live/cloud.hmil.fr/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/cloud.hmil.fr/privkey.pem;
+  ssl_protocols   SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers   HIGH:!aNULL:!MD5;
+
+  server_name cloud.hmil.fr;
+
+  location / {
+    proxy_pass http://localhost:${PORT_CLOUD}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/cloud;
+  }
+}

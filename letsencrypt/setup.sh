@@ -19,6 +19,7 @@ travel="travel travel.hmil.fr"
 files="files files.hmil.fr"
 transmission="transmission transmission.hmil.fr"
 blog="blog blog.hmil.fr"
+cloud="cloud cloud.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -40,6 +41,9 @@ case $1 in
   "transmission" )
     setup $transmission
     ;;
+  "cloud" )
+    setup $cloud
+    ;;
   "all" )
     setup $travel
     ;;
@@ -47,6 +51,3 @@ case $1 in
     echo "invalid target: $1"
     ;;
 esac
-
-
-
