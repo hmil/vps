@@ -2,6 +2,7 @@
 
 export VERSION=1
 export DOLLAR='$'
+export PATH="$PATH:$VPS_HOME/bin"
 
 source_config() {
   if [ -e "$VPS_HOME/.config" ]; then
@@ -16,7 +17,7 @@ configure() {
   echo "##########################"
 
   if [ -z "$VPS_HOME" ]; then
-    script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
     echo "Please set your VPS_HOME environment variable"
     echo "[1]: Ok"

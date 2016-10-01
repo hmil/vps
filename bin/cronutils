@@ -1,0 +1,60 @@
+#!/bin/sh
+
+usage() {
+  cat <<EOF
+Usage:
+  cronutils (remove|check) name
+  cronutils (add|update) name cronline
+EOF
+}
+
+check() {
+  crontab -l | grep -P "# rule: $1$" 2>&1 >> /dev/null
+  return $?
+}
+
+add() {
+  (crontab -l ; echo "$2 # rule: $1") | crontab
+}
+
+remove() {
+  crontab -l | grep -v -P "# rule: $1$" | crontab
+}
+
+update() {
+  remove "$1"
+  add "$1" "$2"
+}
+
+case "$1" in
+  "add")
+    if [ $# -ne 3 ]; then
+      usage
+      exit 1
+    fi
+    if check "$2"; then
+      echo "Rule already exists, aborting"
+      exit 1
+    fi
+    add "$2" "$3"
+  ;;
+  "remove")
+    remove "$2"
+  ;;
+  "update")
+    update "$2" "$3"
+  ;;
+  "check")
+    if check "$2"; then
+      echo "rule exists"
+      exit 0
+    else
+      echo "rule does not exist"
+      exit 1
+    fi
+  ;;
+  *)
+    usage
+    exit 1
+  ;;
+esac

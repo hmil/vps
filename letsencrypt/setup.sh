@@ -12,7 +12,7 @@ fi
 crontab -l | grep letsencrypt >/dev/null
 if [ "$?" -ne 0 ]; then
   echo "Setting up cron job"
-  echo "28 10,5 * * * letsencrypt renew" | crontab
+  cronutils update letsencrypt "28 10,5 * * * letsencrypt renew"
 fi
 
 travel="travel travel.hmil.fr"
