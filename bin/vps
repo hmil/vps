@@ -62,9 +62,9 @@ do_setup() {
 }
 
 do_start() {
-  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
+  if [ -e "$VPS_HOME/$1/start.sh" ]; then
     cd "$VPS_HOME/$1"
-    docker-compose up -d
+    sh "./start.sh"
   else
     echo "Invalid project name: $1"
   fi

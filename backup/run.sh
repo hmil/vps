@@ -17,4 +17,4 @@ for i in $BACKUP_TARGETS; do
   backup "$i"
 done
 
-docker exec -ti owncloud /bin/bash -c 'sudo -u www-data ./occ files:scan --path=hmil/files/backups'
+docker exec -ti cloud_owncloud_1 /bin/bash -c 'sudo -u www-data ./occ files:scan --path=hmil/files/backups'
