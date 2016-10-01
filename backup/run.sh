@@ -8,6 +8,7 @@ backup() {
   cd "$DISK_ROOT/$1"
   mkdir -p "$BACKUP_DEST/$1"
   zip -r "$BACKUP_DEST/$1/$ts.zip" $BACKUP_INCLUDE
+  chown www-data:www-data "$BACKUP_DEST/$1/$ts.zip"
 }
 
 . "$VPS_HOME/backup/config"
@@ -15,3 +16,5 @@ backup() {
 for i in $BACKUP_TARGETS; do
   backup "$i"
 done
+
+docker exec -ti owncloud /bin/bash -c 'sudo -u www-data ./occ files:scan --path=hmil/files/backups'
