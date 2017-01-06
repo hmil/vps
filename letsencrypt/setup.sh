@@ -15,6 +15,7 @@ if [ "$?" -ne 0 ]; then
   cronutils update letsencrypt "28 10,5 * * * letsencrypt renew"
 fi
 
+root="root hmil.fr"
 travel="travel travel.hmil.fr"
 files="files files.hmil.fr"
 transmission="transmission transmission.hmil.fr"
@@ -29,6 +30,9 @@ setup() {
 }
 
 case $1 in
+  "root" )
+    setup $root
+    ;;
   "travel" )
     setup $travel
     ;;

@@ -2,7 +2,7 @@
 
 
 backup() {
-  ts=`date +%y.%m.%d.%H.%M`
+  ts=`date +%y.%m.%d-%H.%M`
   echo "backing up $1"
   . "$VPS_HOME/$1/backup.config"
   cd "$DISK_ROOT/$1"
@@ -17,4 +17,4 @@ for i in $BACKUP_TARGETS; do
   backup "$i"
 done
 
-docker exec -ti cloud_owncloud_1 /bin/bash -c 'sudo -u www-data ./occ files:scan --path=hmil/files/backups'
+docker exec cloud_owncloud_1 /bin/bash -c 'sudo -u www-data ./occ files:scan --path=hmil/files/backups'
