@@ -6,19 +6,19 @@ remove() {
 
 case "$1" in
   "blog" )
-    remove travel
+    remove blog
   ;;
   "cloud" )
-    remove travel
+    remove cloud
   ;;
   "files" )
-    remove travel
+    remove files
   ;;
   "homepage" )
-    remove travel
+    remove homepage
   ;;
   "transmission" )
-    remove travel
+    remove transmission
   ;;
   "travel" )
     remove travel
