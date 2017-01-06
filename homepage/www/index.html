@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hadrien Milano</title>
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+  <style>
+    html, body {
+      min-height: 100%;
+      padding: 0;
+      margin: 0;
+      font-family: 'PT Sans', sans-serif;
+      color: #dddce8;
+    }
+
+    h1 {
+      color: #f1f1f7;
+      font-size: 2em;
+      margin-bottom: 0;
+    }
+
+    h2 {
+      color: #f1f1f7;
+      font-size: 1.25em;
+    }
+
+    body {
+      background: #0b5aa8;
+      background: linear-gradient(141deg, hsla(208, 88%, 44%, 1) 0%, hsl(210, 88%, 35%) 15%, hsl(213, 88%, 26%) 35%, hsla(255, 77%, 28%, 1) 75%);
+      overflow: auto;
+    }
+
+    a, a:focus, a:visited {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
+    .container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      margin: auto;
+      margin-top: 50px;
+      text-align: center;
+    }
+    .title {
+      display: inline-block;
+      margin-top: 270px;
+    }
+    .icons {
+      top: 0;
+      position: absolute;
+      list-style-type: none;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .icons > li {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      width: 30%;
+      margin: auto;
+    }
+    .icons > li.n1 {
+      transform: rotate(-90deg) translate(250px) rotate(90deg);
+    }
+    .icons > li.n2 {
+      transform: rotate(-162deg) translate(250px) rotate(162deg);
+    }
+    .icons > li.n3 {
+      transform: rotate(-18deg) translate(250px) rotate(18deg);
+    }
+    .icons > li.n4 {
+      transform: rotate(-234deg) translate(250px) rotate(234deg);
+    }
+    .icons > li.n5 {
+      transform: rotate(-306deg) translate(250px) rotate(306deg);
+    }
+    .icons > li i {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+      <div class="title">
+        <h1>Hadrien Milano</h1>
+        <h2>Code - Travel - Enjoy</h2>
+      </div>
+      <ul class="icons">
+        <li class="n1">
+          <a href="https://github.com/hmil">
+            <i class="fa fa-github fa-3x"></i><br>
+            Open Source
+          </a>
+        </li>
+        <li class="n2">
+          <a href="https://travel.hmil.fr/">
+            <i class="fa fa-camera-retro fa-3x"></i><br>
+            Travel
+          </a>
+        </li>
+        <li class="n3">
+          <a href="https://blog.hmil.fr/">
+            <i class="fa fa-wordpress fa-3x"></i><br>
+            Blog
+          </a>
+        </li>
+        <li class="n4">
+          <a href="#" id="contact-link" onclick="contact()">
+            <i class="fa fa-envelope-o fa-3x"></i><br>
+            <span id="contact-text">Contact me</span>
+          </a>
+        </li>
+        <li class="n5">
+          <a href="./cv.html">
+            <i class="fa fa-file-text-o fa-3x"></i><br>
+            Résumé
+          </a>
+        </li>
+      </ul>
+    </div>
+    <script>
+      function selectText(text) {
+          if (document.body.createTextRange) {
+              var range = document.body.createTextRange();
+              range.moveToElementText(text);
+              range.select();
+          } else if (window.getSelection) {
+              var selection = window.getSelection();
+              var range = document.createRange();
+              range.selectNodeContents(text);
+              selection.removeAllRanges();
+              selection.addRange(range);
+          }
+      }
+
+      function contact() {
+        window.setTimeout(function() {
+          var tbl = ['hmil', 'gmail', 'com'];
+          var mail = tbl[0][0] + (1-{}+'')[1] + (window.u+'')[2] + 'rien' +'.' + tbl[0].substr(1) + 'ano';
+          mail += '@' + tbl[1] + '.' + tbl[2];
+          var contactLink = document.getElementById('contact-link');
+          var contactText = document.getElementById('contact-text');
+          contactLink.attributes.removeNamedItem('onclick');
+          contactLink.href = 'mailto:' + mail;
+          contactText.innerText = mail;
+          selectText(contactText);
+        });
+      }
+    </script>
+</body>
+</html>

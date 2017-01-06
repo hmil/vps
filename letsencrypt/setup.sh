@@ -21,6 +21,7 @@ files="files files.hmil.fr"
 transmission="transmission transmission.hmil.fr"
 blog="blog blog.hmil.fr"
 cloud="cloud cloud.hmil.fr"
+www="www www.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -48,8 +49,11 @@ case $1 in
   "cloud" )
     setup $cloud
     ;;
-  "all" )
-    setup $travel
+  "root" )
+    setup $root
+    ;;
+  "www" )
+    setup $www
     ;;
   * )
     echo "invalid target: $1"
