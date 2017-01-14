@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+  <title>Get your very own bokeh!</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+      #bokeh-form {
+        display: block;
+        margin: auto;
+        width: 600px;
+        margin-top: 200px;
+        background-color: rgba(0, 0, 0, 0.32) ;
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      #bokeh-form > h1 {
+        margin-top: 0;
+      }
+
+      #bokeh-form > input {
+        width: 100%;
+        background-color: #000;
+        color: white;
+        border: 1px #222 solid;
+        font-size: 20pt;
+        margin: auto;
+        margin-top: 16pt;
+        padding: 5px;
+        display: block;
+        width: 400px;
+      }
+  </style>
+</head>
+<body>
+  <form action="/bokeh.html",method="GET" id="bokeh-form">
+    <h1>Get your very own customized art piece!</h1>
+    <input name="seed" type="text" placeholder="Enter your name">
+  </form>
+</body>
+</html>
