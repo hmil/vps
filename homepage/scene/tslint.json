@@ -1,0 +1,18 @@
+{
+  "rules" : {
+    "member-access": [
+      "check-accessor"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-module",
+      "check-operator",
+      "check-separator",
+      "check-type"
+    ],
+    "semicolon": [true, "always"],
+    "no-use-before-declare": true
+  }
+}

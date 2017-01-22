@@ -8,50 +8,53 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="container">
-      <div class="title">
-        <h1>Hadrien Milano</h1>
-        <h2>Code - Travel - Enjoy</h2>
-      </div>
-      <ul class="icons">
-        <li class="rot-1">
-          <a href="https://github.com/hmil">
-            <i class="fa fa-github fa-3x"></i><br>
-            Open Source
-          </a>
-        </li>
-        <li class="rot-2">
-          <a href="https://blog.hmil.fr/">
-            <i class="fa fa-wordpress fa-3x"></i><br>
-            Blog
-          </a>
-        </li>
-        <li class="rot-3">
-          <a href="https://travel.hmil.fr/">
-            <i class="fa fa-camera-retro fa-3x"></i><br>
-            Travel
-          </a>
-        </li>
-        <li class="rot-4">
-          <a href="#" id="contact-link" onclick="contact()">
-            <i class="fa fa-envelope-o fa-3x"></i><br>
-            <span id="contact-text">Contact me</span>
-          </a>
-        </li>
-        <li class="rot-5">
-          <a href="./cv.html">
-            <i class="fa fa-file-text-o fa-3x"></i><br>
-            Résumé
-          </a>
-        </li>
-        <li class="rot-6">
-          <a href="https://www.youtube.com/watch?v=fEae1uH4HC4">
-            <i class="fa fa-youtube-play fa-3x"></i><br>
-            Watch
-          </a>
-        </li>
-      </ul>
-    </div>
+    <canvas id="glcanvas" width="1024" height="1024"></canvas>
+   <div id="anim-container" class="anim-pending">
+      <div class="container">
+       <div class="title">
+         <h1>Hadrien Milano</h1>
+         <h2>Code - Travel - Enjoy</h2>
+       </div>
+       <ul class="icons">
+         <li class="rot-1">
+           <a href="https://github.com/hmil">
+             <i class="fa fa-github fa-3x"></i><br>
+             Open Source
+           </a>
+         </li>
+         <li class="rot-2">
+           <a href="https://blog.hmil.fr/">
+             <i class="fa fa-wordpress fa-3x"></i><br>
+             Blog
+           </a>
+         </li>
+         <li class="rot-3">
+           <a href="https://travel.hmil.fr/">
+             <i class="fa fa-camera-retro fa-3x"></i><br>
+             Travel
+           </a>
+         </li>
+         <li class="rot-4">
+           <a href="#" id="contact-link" onclick="contact()">
+             <i class="fa fa-envelope-o fa-3x"></i><br>
+             <span id="contact-text">Contact me</span>
+           </a>
+         </li>
+         <li class="rot-5">
+           <a href="./cv.html">
+             <i class="fa fa-file-text-o fa-3x"></i><br>
+             Résumé
+           </a>
+         </li>
+         <li class="rot-6">
+           <a href="https://www.youtube.com/watch?v=fEae1uH4HC4">
+             <i class="fa fa-youtube-play fa-3x"></i><br>
+             Watch
+           </a>
+         </li>
+       </ul>
+     </div>
+   </div>
     <script>
       function selectText(text) {
           if (document.body.createTextRange) {
@@ -80,6 +83,13 @@
           selectText(contactText);
         });
       }
+
+      function startAnim() {
+        var el = document.getElementById('anim-container');
+        el.className = 'animated';
+        scene.start();
+      }
     </script>
+    <script onload="startAnim()" src="./scene.js" type="text/javascript"></script>
 </body>
 </html>

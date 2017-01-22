@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "target": "es5",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "allowJs": true,
+    "noResolve": true
+  },
+  "compileOnSave": true
+}

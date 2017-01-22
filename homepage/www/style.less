@@ -18,18 +18,37 @@ h2 {
 }
 
 body {
-  background: #311d9f;
-  background: linear-gradient(141deg, #4196d2 0%, #0b5aa8 15%, #311d9f 35%, #170844 75%);
+  background: #000;
+  // background: #0c0727;
+  // background: linear-gradient(141deg, #2c658d 0%, #083e74 15%, #1a0f54 35%, #0a031e 75%);
   overflow: auto;
 }
 
+.anim-pending {
+  a {
+    opacity: 0.2;
+  }
+
+  .title {
+    opacity: 0.2;
+  }
+}
+
 a, a:focus, a:visited {
-  color: inherit;
+  color: #eee;
   text-decoration: none;
 }
 
 a:hover {
   color: #fff;
+  text-shadow: 0 0 5px #fff;
+}
+
+#glcanvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
 }
 
 .container {
@@ -43,6 +62,10 @@ a:hover {
 .title {
   display: inline-block;
   margin-top: 270px;
+}
+.animated .title {
+  animation-name: appear-title;
+  animation-duration: 4.5s;
 }
 .icons {
   top: 0;
@@ -74,8 +97,89 @@ a:hover {
     .rot-@{counter} {
       transform: rotate((@angle)*(-1deg)) translate(250px) rotate((@angle)*1deg);
     }
+    .animated .rot-@{counter} {
+      animation-name: appear-icon;
+      animation-duration: (mod((@counter * 800), 1500) + 1500) * 1ms;
+    }
   }
   .loop(@nb-angles)
 }
 
 .make-angle(6, 60);
+
+@keyframes appear-title {
+  from {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  80% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  81% {
+    opacity: 1;
+    text-shadow: 0 0 10px #fff;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 3px #fff;
+  }
+}
+
+@keyframes appear-icon {
+  from {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  // first flicker
+  24% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  25% {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+  26% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+
+  // second flicker
+  64% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  65% {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+  66% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+
+  // third flicker
+  84% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  85% {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+  86% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+
+  //
+  99% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+}
