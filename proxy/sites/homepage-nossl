@@ -1,0 +1,31 @@
+
+server {
+  server_name hmil.fr;
+  listen 80;
+
+
+  location / {
+    root ${VPS_HOME}/homepage/www;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/root;
+  }
+}
+
+# www.hmil.fr is accepted but redirects to the canonical url (hmil.fr)
+
+server {
+  server_name www.hmil.fr;
+  listen 80;
+
+
+  location / {
+    return 302 https://hmil.fr/;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/www;
+  }
+}
+

@@ -1,0 +1,18 @@
+
+server {
+  listen 80;
+
+  server_name travel.hmil.fr;
+
+  client_max_body_size 300M;
+
+  location / {
+    proxy_pass http://localhost:${PORT_TRAVEL}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/travel;
+  }
+}

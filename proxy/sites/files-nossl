@@ -1,0 +1,16 @@
+server {
+  listen 80;
+
+  server_name files.hmil.fr;
+
+  client_max_body_size 300M;
+
+  location / {
+    autoindex on;
+    root ${DISK_ROOT}/files;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/files;
+  }
+}

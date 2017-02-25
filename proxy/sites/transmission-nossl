@@ -1,0 +1,16 @@
+
+server {
+  listen 80;
+
+  server_name transmission.hmil.fr;
+
+  location / {
+    proxy_pass http://localhost:${PORT_TRANSMISSION}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/transmission;
+  }
+}

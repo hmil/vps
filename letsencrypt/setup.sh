@@ -6,7 +6,7 @@ fi
 
 if [ ! -e "/var/www/letsencrypt" ]; then
   echo "Creating letsencrypt dir"
-  mkdir /var/www/letsencrypt
+  mkdir -p /var/www/letsencrypt
 fi
 
 crontab -l | grep letsencrypt >/dev/null
