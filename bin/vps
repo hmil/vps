@@ -95,6 +95,16 @@ do_logs() {
   docker-compose logs $@
 }
 
+do_config() {
+  if [ -e "$VPS_HOME/$1/config.sh" ]; then
+    cd "$VPS_HOME/$1"
+    shift
+    sh "./config.sh" $@
+  else
+    echo "Invalid project name: $1"
+  fi
+}
+
 source_config
 
 if [ -z "$VPS_CONFIG_VERSION" ] || [ "$VPS_CONFIG_VERSION" -lt "$VERSION" ]; then
@@ -126,6 +136,9 @@ case $cmd in
     ;;
   "logs" )
     do_logs $@
+    ;;
+  "config" )
+    do_config $@
     ;;
   * )
     echo "invalid command: $cmd"
