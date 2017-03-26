@@ -27,7 +27,17 @@ server {
     proxy_pass http://localhost:${PORT_BLOG}/;
     proxy_set_header Host ${DOLLAR}host;
     proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+    
+    location /wp-login.php {
+      auth_basic           "Auth pleaz";
+      auth_basic_user_file /mnt/data/.htpasswd;
+      proxy_pass http://localhost:${PORT_BLOG}/wp-login.php;
+      proxy_set_header Host ${DOLLAR}host;
+      proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+    }
+
   }
+  
 
   location /.well-known {
     root /var/www/letsencrypt/blog;

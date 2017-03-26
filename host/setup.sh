@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xe
 
 echo "Setting up host"
 
@@ -19,6 +19,11 @@ chmod +x /usr/local/bin/docker-compose
 EOF
 
 # Utilities
-apt-get install zip
+apt-get install zip syslog-ng fail2ban
+
+# Config
+cp syslog-ng/*.conf /etc/syslog-ng/conf.d/
+cp fail2ban/jail.local /etc/fail2ban/
+cp fail2ban/vps.conf /etc/fail2ban/jail.d/
 
 echo "Done."

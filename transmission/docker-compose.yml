@@ -14,4 +14,9 @@ services:
     environment:
       PGID: ${WWW_DATA_GID}
       PUID: ${WWW_DATA_UID}
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: transmission
 

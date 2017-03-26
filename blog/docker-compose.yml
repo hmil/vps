@@ -10,7 +10,6 @@ services:
       MYSQL_DATABASE: ${BLOG_MYSQL_DATABASE}
       MYSQL_USER: ${BLOG_MYSQL_USER}
       MYSQL_PASSWORD: ${BLOG_MYSQL_PASSWORD}
-
   wordpress:
     working_dir: /var/www/html
     ports:
