@@ -4,6 +4,8 @@ export VERSION=1
 export DOLLAR='$'
 export PATH="$PATH:$VPS_HOME/bin"
 
+SVC_DIR="$VPS_HOME/services"
+
 source_config() {
   if [ -e "$VPS_HOME/.config" ]; then
     . "$VPS_HOME/.config"
@@ -52,27 +54,28 @@ EOF
 }
 
 do_setup() {
-  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
-    cd "$VPS_HOME/$1"
+  if [ -e "$SVC_DIR/$1/setup.sh" ]; then
+    cd "$SVC_DIR/$1"
     shift
     sh "./setup.sh" $@
   else
-    echo "Invalid project name: $1"
+    echo "Invalid services name: $1"
   fi
 }
 
 do_start() {
-  if [ -e "$VPS_HOME/$1/start.sh" ]; then
-    cd "$VPS_HOME/$1"
+  if [ -e "$SVC_DIR/$1/start.sh" ]; then
+    cd "$SVC_DIR/$1"
     sh "./start.sh"
   else
-    echo "Invalid project name: $1"
+    echo "Invalid services name: $1"
   fi
 }
 
 do_stop() {
-  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
-    cd "$VPS_HOME/$1"
+  if [ -e "$SVC_DIR/$1/stop.sh" ]; then
+    cd "$SVC_DIR/$1"
+    sh "./stop.sh"
     docker-compose down
   else
     echo "Invalid project name: $1"
@@ -80,8 +83,8 @@ do_stop() {
 }
 
 do_remove() {
-  if [ -e "$VPS_HOME/$1/setup.sh" ]; then
-    cd "$VPS_HOME/$1"
+  if [ -e "$SVC_DIR/$1/setup.sh" ]; then
+    cd "$SVC_DIR/$1"
     shift
     sh "./remove.sh" $@
   else
@@ -90,19 +93,37 @@ do_remove() {
 }
 
 do_logs() {
-  cd "$VPS_HOME/$1"
-  shift
-  docker-compose logs $@
+  if [ -e "$SVC_DIR/$1/logs.sh" ]; then
+    cd "$SVC_DIR/$1"
+    shift
+    sh "./logs.sh" $@
+  else
+    echo "Invalid project name: $1"
+  fi
 }
 
 do_config() {
-  if [ -e "$VPS_HOME/$1/config.sh" ]; then
-    cd "$VPS_HOME/$1"
+  if [ -e "$SVC_DIR/$1/config.sh" ]; then
+    cd "$SVC_DIR/$1"
     shift
     sh "./config.sh" $@
   else
     echo "Invalid project name: $1"
   fi
+}
+
+usage() {
+  cat 1>&2 <<EOF
+usage: vps command service [args]
+
+Available commands:
+- setup
+- start
+- stop
+- remove
+- logs
+- config
+EOF
 }
 
 source_config
@@ -120,6 +141,11 @@ fi
 . "$VPS_HOME/ports"
 
 cmd="$1"
+if [ -z "$cmd" ]; then
+  usage
+  exit 1
+fi
+
 shift
 case $cmd in
   "setup" )

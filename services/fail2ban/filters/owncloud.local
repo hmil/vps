@@ -1,0 +1,12 @@
+# fail2Ban filter for selected owncloud logins
+#
+#
+
+[Definition]
+
+# We can only log login attempts and not necessarily failures... good enough
+failregex = <HOST>.+GET /index.php/login
+            <HOST>.+PROPFIND /remote.php/webdav/.+401
+
+ignoreregex =
+

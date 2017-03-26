@@ -1,0 +1,17 @@
+version: '2'
+services:
+  openvpn:
+    cap_add:
+     - NET_ADMIN
+    image: kylemanna/openvpn
+    container_name: openvpn
+    ports:
+     - "1194:1194/udp"
+    restart: always
+    volumes:
+     - ${DISK_ROOT}/vpn-data/conf:/etc/openvpn
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: vpn
