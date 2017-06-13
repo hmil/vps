@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 export VERSION=1
 export DOLLAR='$'
 export PATH="$PATH:$VPS_HOME/bin"
+
+export VPS_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
 SVC_DIR="$VPS_HOME/services"
 
@@ -112,6 +114,11 @@ do_config() {
   fi
 }
 
+do_shell() {
+  cd "$VPS_HOME/services/$1"
+  bash
+}
+
 usage() {
   cat 1>&2 <<EOF
 usage: vps command service [args]
@@ -123,6 +130,7 @@ Available commands:
 - remove
 - logs
 - config
+- shell
 EOF
 }
 
@@ -165,6 +173,9 @@ case $cmd in
     ;;
   "config" )
     do_config $@
+    ;;
+  "shell" )
+    do_shell $@
     ;;
   * )
     echo "invalid command: $cmd"
