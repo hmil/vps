@@ -1,0 +1,17 @@
+version: '2'
+services:
+  worker:
+    image: jenkinsci/jenkins:lts
+    volumes:
+      - "${DISK_ROOT}/jenkins:/var/jenkins_home"
+    ports:
+      - "127.0.0.1:${PORT_JENKINS}:8080"
+    restart: always
+#    environment:
+#      - "JAVA_OPTS=-Djava.util.logging.config.file=/var/jenkins_home/log.properties"
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: jenkins
+
