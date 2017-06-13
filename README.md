@@ -13,6 +13,6 @@ sudo chown root:root env
 Usage:
 
 ```
-sudo env VPS_HOME=`pwd` ./bin/vps
+sudo ./bin/vps
 ```
 
