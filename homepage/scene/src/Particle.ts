@@ -3,7 +3,8 @@ import Thing from './Thing';
 import { RenderingData } from './Scene';
 import WebGLContext from './WebGLContext';
 import { createBuffer, createProgram, getUniformLocation, makeShader } from './helpers';
-import { particle } from './shaders';
+
+let particle = require('./shaders').particle;
 
 const SCALE = 0.1;
 

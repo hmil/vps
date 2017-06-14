@@ -6,55 +6,81 @@
   <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
   <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="./style.css">
+  <meta name="viewport" content="width=600, initial-scale=1">
 </head>
 <body>
     <canvas id="glcanvas" width="1024" height="1024"></canvas>
-   <div id="anim-container" class="anim-pending">
-      <div class="container">
-       <div class="title">
-         <h1>Hadrien Milano</h1>
-         <h2>Code - Travel - Enjoy</h2>
-       </div>
-       <ul class="icons">
-         <li class="rot-1">
-           <a href="https://github.com/hmil">
-             <i class="fa fa-github fa-3x"></i><br>
-             Open Source
-           </a>
-         </li>
-         <li class="rot-2">
-           <a href="https://blog.hmil.fr/">
-             <i class="fa fa-wordpress fa-3x"></i><br>
-             Blog
-           </a>
-         </li>
-         <li class="rot-3">
-           <a href="https://travel.hmil.fr/">
-             <i class="fa fa-camera-retro fa-3x"></i><br>
-             Travel
-           </a>
-         </li>
-         <li class="rot-4">
-           <a href="#" id="contact-link" onclick="contact()">
-             <i class="fa fa-envelope-o fa-3x"></i><br>
-             <span id="contact-text">Contact me</span>
-           </a>
-         </li>
-         <li class="rot-5">
-           <a href="./cv.html">
-             <i class="fa fa-file-text-o fa-3x"></i><br>
-             Résumé
-           </a>
-         </li>
-         <li class="rot-6">
-           <a href="https://www.youtube.com/watch?v=fEae1uH4HC4">
-             <i class="fa fa-youtube-play fa-3x"></i><br>
-             Watch
-           </a>
-         </li>
-       </ul>
-     </div>
-   </div>
+    <div id="pages-container" class="focus-2">
+      <div class="page">
+       <div id="anim-container" class="anim-pending">
+          <div id="container">
+           <div class="title">
+             <h1>Hadrien Milano</h1>
+             <h2>Code - Travel - Enjoy</h2>
+           </div>
+           <ul class="icons">
+             <li class="rot-1">
+               <a href="https://github.com/hmil">
+                 <i class="fa fa-github fa-3x"></i><br>
+                 Open Source
+               </a>
+             </li>
+             <li class="rot-2">
+               <a href="https://blog.hmil.fr/">
+                 <i class="fa fa-wordpress fa-3x"></i><br>
+                 Blog
+               </a>
+             </li>
+             <li class="rot-3">
+               <a href="https://travel.hmil.fr/">
+                 <i class="fa fa-camera-retro fa-3x"></i><br>
+                 Travel
+               </a>
+             </li>
+             <li class="rot-4">
+               <a href="#" id="contact-link" onclick="contact()">
+                 <i class="fa fa-envelope-o fa-3x"></i><br>
+                 <span id="contact-text">Contact me</span>
+               </a>
+             </li>
+             <li class="rot-5">
+               <a href="./cv.html">
+                 <i class="fa fa-file-text-o fa-3x"></i><br>
+                 Résumé
+               </a>
+             </li>
+             <li class="rot-6">
+               <a href="#demos">
+                 <i class="fa fa-hand-pointer-o fa-3x"></i><br>
+                 Demos
+               </a>
+             </li>
+           </ul>
+         </div>
+        </div>
+      </div>
+      <div class="page page-2">
+        <div id="the_demos">
+          <a href="#" onclick="return navigateBack()" class="nav-btn"><i class="fa fa-chevron-up"></i><br>Back</a>
+          <h2>Cool stuff I made:</h2>
+          <ul class="demo-list">
+            <li><a href="https://www.youtube.com/watch?v=fEae1uH4HC4">
+              <i class="fa fa-2x fa-youtube-play"></i> OpenGL terrain generator</a></li>
+            <li><a href="./art.html">
+              <i class="fa fa-2x fa-picture-o"></i> HTML5 Canvas bokeh generator</a></li>
+            <li></li>
+            <li><a href="./tool_dbg/index.html">
+              <i class="fa fa-2x fa-cogs"></i> TOOL debugger</a></li>
+            <li><a href="https://courseadvisor.ch">
+              <i class="fa fa fa-star"></i> 
+              <i class="fa fa fa-star"></i>
+              <i class="fa fa fa-star-half-o"></i> courseadvisor.ch</a></li>
+            <li><a href="#controls">
+              <i class="fa fa fa-sliders fa-2x"></i> s<span id="controls-toggle-text">how controls</span> (requires WebGL)</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <script>
       function selectText(text) {
           if (document.body.createTextRange) {
@@ -89,7 +115,65 @@
         el.className = 'animated';
         scene.start();
       }
+
+      var isIndexInHistory = false;
+      var isWebGLSupported = false;
+  
+      function navigateBack() {
+        if (!isIndexInHistory) {
+          return true;
+        } else {
+          window.history.back();
+          return false;
+        }
+      }
+
+      function controller() {
+        var $container = window.document.getElementById('container');
+        var $demos = window.document.getElementById('the_demos');
+        var $pc = window.document.getElementById('pages-container');
+        var indexStarted = false;
+        var controlsStarted = false;
+
+        function route() {
+          console.log(window.location.hash);
+          switch(window.location.hash.replace('#', '')) {
+
+            case 'controls':
+              if (!controlsStarted && isWebGLSupported) {
+                scene.initGUI();
+              }
+              // Falls through
+            case 'demos':
+              $container.className = 'invisible';
+              $demos.className = '';
+              $pc.className = 'focus-2';
+              break;
+            default:
+              $container.className = '';
+              $demos.className = 'invisible';
+              $pc.className = 'focus-1';
+              isIndexInHistory = true;
+              if (!indexStarted) {
+                startAnim();
+                indexStarted = true;
+              }
+          }
+        }
+
+        window.addEventListener('hashchange', route);
+        route();
+        try {
+          scene.init();
+          isWebGLSupported = true;
+        } catch (e) {
+          console.error(e);
+          isWebGLSupported = false;
+          window.document.getElementById('controls-toggle-text').style = "text-decoration: line-through";
+        }
+      }
+
     </script>
-    <script onload="startAnim()" src="./scene.js" type="text/javascript"></script>
+    <script onload="controller()" src="./scene.js" type="text/javascript"></script>
 </body>
 </html>

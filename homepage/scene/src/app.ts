@@ -1,7 +1,7 @@
 import WebGLContext from './WebGLContext';
-import { vec3 } from 'gl-matrix';
+let vec3 = require('gl-matrix').vec3;
 import { default as Scene, SceneParams } from './Scene';
-// import { GUI } from 'dat-gui';
+import { GUI } from 'dat-gui';
 
 let scene: Scene;
 let xCtrl: HTMLInputElement;
@@ -28,9 +28,8 @@ class Controls {
 }
 let controls = new Controls();
 
-export function start() {
+export function init() {
   WebGLContext.init();
-  //initGUI();
 
   xCtrl = document.getElementById('x') as HTMLInputElement;
   yCtrl = document.getElementById('y') as HTMLInputElement;
@@ -38,6 +37,9 @@ export function start() {
 
   scene = new Scene();
   window.requestAnimationFrame(update);
+}
+
+export function start() {
 
   let n_interval = 0;
   let interval = window.setInterval(function() {
@@ -51,7 +53,7 @@ export function start() {
   }, 100);
 }
 
-/*function initGUI() {
+export function initGUI() {
   let gui = new GUI();
   let light = gui.addFolder('Light');
   light.add(controls, 'x', -5, 5);
@@ -61,7 +63,7 @@ export function start() {
   camera.add(controls, 'cx', -5, 5);
   camera.add(controls, 'cy', -5, 5);
   camera.add(controls, 'cz', -5, 5);
-}*/
+}
 
 export function update(time: number) {
   if (lastTime !== -1) {

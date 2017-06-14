@@ -8,7 +8,7 @@ import {
   getUniformLocation,
   makeShader
 } from './helpers';
-import { postFX } from './shaders';
+let postFX = require('./shaders');
 
 export default class PostFX {
 
@@ -42,13 +42,13 @@ export default class PostFX {
     gl.bindTexture(gl.TEXTURE_2D, this.depth_tex);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, PostFX.RES_X, PostFX.RES_Y, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT, undefined);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT, PostFX.RES_X, PostFX.RES_Y, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT, null);
 
     this.color_tex = createTexture(gl);
     gl.bindTexture(gl.TEXTURE_2D, this.color_tex);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, PostFX.RES_X, PostFX.RES_Y, 0, gl.RGBA, gl.UNSIGNED_BYTE, undefined);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, PostFX.RES_X, PostFX.RES_Y, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
 
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.color_tex, 0);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depth_tex, 0);

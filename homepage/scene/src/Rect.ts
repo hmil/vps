@@ -4,7 +4,7 @@ import { mat4, vec3 } from 'gl-matrix';
 import { createBuffer, createProgram, getUniformLocation, makeShader } from './helpers';
 import WebGLContext from './WebGLContext';
 
-import { wall } from './shaders';
+let wall = require('./shaders').wall;
 
 let tmpMatrix = mat4.create();
 let tmpVec3 = vec3.create();
