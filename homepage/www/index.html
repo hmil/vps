@@ -75,7 +75,7 @@
               <i class="fa fa fa-star"></i> 
               <i class="fa fa fa-star"></i>
               <i class="fa fa fa-star-half-o"></i> courseadvisor.ch</a></li>
-            <li><a href="#controls">
+            <li><a href="#controls" onclick="return enableControls()">
               <i class="fa fa fa-sliders fa-2x"></i> s<span id="controls-toggle-text">how controls</span> (requires WebGL)</a></li>
           </ul>
         </div>
@@ -118,6 +118,7 @@
 
       var isIndexInHistory = false;
       var isWebGLSupported = false;
+      var controlsStarted = false;
   
       function navigateBack() {
         if (!isIndexInHistory) {
@@ -128,22 +129,22 @@
         }
       }
 
+      function enableControls() {
+        if (!controlsStarted && isWebGLSupported) {
+          scene.initGUI();
+        }
+        return false;
+      }
+
       function controller() {
         var $container = window.document.getElementById('container');
         var $demos = window.document.getElementById('the_demos');
         var $pc = window.document.getElementById('pages-container');
         var indexStarted = false;
-        var controlsStarted = false;
 
         function route() {
           console.log(window.location.hash);
           switch(window.location.hash.replace('#', '')) {
-
-            case 'controls':
-              if (!controlsStarted && isWebGLSupported) {
-                scene.initGUI();
-              }
-              // Falls through
             case 'demos':
               $container.className = 'invisible';
               $demos.className = '';

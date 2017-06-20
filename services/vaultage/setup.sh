@@ -1,13 +1,14 @@
-#!/bin/sh -e
+set -e
 
 cd "$DISK_ROOT/vaultage"
 
-if [ -e "vaultage" ];
+if [ -e "vaultage" ]; then
     cd vaultage
     echo "Updating vaultage"
     git pull
 else
     echo "Downloading vaultage"
-    git clone git@github.com:lbarman/vaultage.git#v3
+    git clone "https://github.com/lbarman/vaultage.git"
     cd vaultage
+    git checkout v3
 fi

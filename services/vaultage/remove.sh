@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-"$DISK_ROOT/vaultage/vaultage/resources/docker-nginx/vaultage.sh wipe"
+"$DISK_ROOT/vaultage/vaultage/resources/docker-nginx/vaultage.sh" wipe

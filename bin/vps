@@ -78,7 +78,6 @@ do_stop() {
   if [ -e "$SVC_DIR/$1/stop.sh" ]; then
     cd "$SVC_DIR/$1"
     sh "./stop.sh"
-    docker-compose down
   else
     echo "Invalid project name: $1"
   fi
