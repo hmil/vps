@@ -8,7 +8,7 @@ import {
   getUniformLocation,
   makeShader
 } from './helpers';
-let postFX = require('./shaders');
+let postFX = require('./shaders').postFX;
 
 export default class PostFX {
 

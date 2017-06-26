@@ -5,6 +5,7 @@ export DOLLAR='$'
 export PATH="$PATH:$VPS_HOME/bin"
 
 export VPS_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
+export RUNTIME_ROOT="$VPS_HOME/runtime"
 
 SVC_DIR="$VPS_HOME/services"
 

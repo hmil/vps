@@ -10,6 +10,7 @@ version: '2'
 services:
   owncloud:
     image: owncloud
+    restart: always
     volumes:
       - "${DISK_ROOT}/cloud:/var/www/html"
     ports:
@@ -20,6 +21,7 @@ services:
         syslog-address: "tcp://127.0.0.1:514"
         tag: cloud
   mysql:
+    restart: always
     volumes:
       - "${DISK_ROOT}/cloud_db:/var/lib/mysql"
     image: mariadb

@@ -1,31 +1,18 @@
 version: '2'
 services:
-  slave0:
-    image: jenkinsci/jnlp-slave
-    environment:
-      - JENKINS_URL=http://master:8080
-      - JENKINS_SECRET=${JENKINS_SLAVE0_SECRET}
-      - JENKINS_AGENT_NAME=docker01
-    restart: always
-    links:
-      - master
-  ansible:
-    build: ansible-slave
-    environment:
-      - JENKINS_URL=http://master:8080
-      - JENKINS_SECRET=${JENKINS_SLAVE_ANSIBLE_SECRET}
-      - JENKINS_AGENT_NAME=ansible
-    restart: always
-    volumes:
-      - "${VPS_HOME}/services/jenkins/ssh-keys/master:/home/jenkins/.ssh"
-    links:
-      - master
-      - audiweb
   audiweb:
-    build: ansible-target
-    volumes:
-      - "${VPS_HOME}/services/jenkins/ssh-keys/slave:/root/.ssh"
+    build: audiweb
+    environment:
+      - JENKINS_URL=http://master:8080
+      - JENKINS_SECRET=${JENKINS_AUDIWEB_SECRET}
+      - JENKINS_AGENT_NAME=audiweb
     restart: always
+    links:
+      - master
+    volumes:
+      # DISK storage is slow af so we run build stuff on the SSD
+      - "${RUNTIME_ROOT}/audiweb:/home/jenkins"
+      - "${DISK_ROOT}/audiweb:/var/dist"
   master:
     image: jenkinsci/jenkins:lts
     volumes:

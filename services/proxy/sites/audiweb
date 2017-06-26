@@ -6,11 +6,15 @@ server {
   client_max_body_size 300M;
 
   location / {
-    autoindex on;
-    root /home/ubuntu/audiweb/maquettes;
+    # autoindex on;
+    # root /home/ubuntu/audiweb/maquettes;
+
+    proxy_pass http://localhost:${PORT_AUDIWEB}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+    proxy_set_header Authorization "";
    
     auth_basic           "Auth pleaz";
-    auth_basic_user_file /home/ubuntu/audiweb/.htpasswd;
-
+    auth_basic_user_file ${DISK_ROOT}/audiweb/.htpasswd;
   }
 }

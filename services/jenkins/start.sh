@@ -9,7 +9,7 @@ if [ ! -e "ssh-keys" ]; then
    chown 10000:10000 ssh-keys/master/*
 fi
 
-docker-compose up -d
+docker-compose up -d --build
 # Docker adds rules at the beginning of the FORWARD table
 # so we want to reload the firewall to make sure the firewall
 # rule stays on top

@@ -6801,7 +6801,7 @@ var scene =
 	var gl_matrix_1 = __webpack_require__(2);
 	var WebGLContext_1 = __webpack_require__(1);
 	var helpers_1 = __webpack_require__(14);
-	var postFX = __webpack_require__(15);
+	var postFX = __webpack_require__(15).postFX;
 	var PostFX = (function () {
 	    function PostFX() {
 	        this.init();
