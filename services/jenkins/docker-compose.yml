@@ -1,18 +1,5 @@
 version: '2'
-services:
-  audiweb:
-    build: audiweb
-    environment:
-      - JENKINS_URL=http://master:8080
-      - JENKINS_SECRET=${JENKINS_AUDIWEB_SECRET}
-      - JENKINS_AGENT_NAME=audiweb
-    restart: always
-    links:
-      - master
-    volumes:
-      # DISK storage is slow af so we run build stuff on the SSD
-      - "${RUNTIME_ROOT}/audiweb:/home/jenkins"
-      - "${DISK_ROOT}/audiweb:/var/dist"
+services:  
   master:
     image: jenkinsci/jenkins:lts
     volumes:
@@ -20,13 +7,40 @@ services:
     ports:
       - "127.0.0.1:${PORT_JENKINS}:8080"
     restart: always
-#    environment:
-#      - "JAVA_OPTS=-Djava.util.logging.config.file=/var/jenkins_home/log.properties"
-#    links:
-#      - audiweb
-#    logging:
-#      driver: syslog
-#      options:
-#        syslog-address: "tcp://127.0.0.1:514"
-#        tag: jenkins
+
+###############
+### Workers ###  
+###############
+
+### Audiweb shit ###
+
+  audiweb:
+    build: audiweb/jnlp
+    environment:
+      - JENKINS_URL=http://master:8080
+      - JENKINS_SECRET=${JENKINS_AUDIWEB_SECRET}
+      - JENKINS_AGENT_NAME=audiweb
+    restart: always
+    links:
+      - master
+      - audiweb-php:php-cli
+    volumes:
+      # DISK storage is slow af so we run build stuff on the SSD
+      - "${RUNTIME_ROOT}/audiweb:/home/jenkins"
+      - "${DISK_ROOT}/audiweb:/var/dist"
+      - "${VPS_HOME}/services/jenkins/audiweb/.ssh:/home/jenkins/.ssh"
+  audiweb-php:
+    build: audiweb/php
+    volumes:
+      - "${RUNTIME_ROOT}/audiweb:/home/jenkins"
+      - "${VPS_HOME}/services/jenkins/audiweb/php/.ssh:/home/jenkins/.ssh"
+    links:
+      - audiweb-mysql:mysql
+  audiweb-mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${JENKINS_AUDIWEB_MYSQL_ROOT_PWD}
+      - MYSQL_DATABASE=audiweb
+      - MYSQL_USER=audiweb
+      - MYSQL_PASSWORD=${JENKINS_AUDIWEB_MYSQL_PWD}
 
