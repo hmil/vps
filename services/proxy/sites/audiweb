@@ -18,3 +18,19 @@ server {
     auth_basic_user_file ${DISK_ROOT}/audiweb/.htpasswd;
   }
 }
+
+server {
+  listen 8080;
+
+  server_name audiweb.hmil.fr;
+
+  location / {
+
+    proxy_pass http://localhost:${PORT_AUDIWEB_TEQ}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+    proxy_set_header Authorization "";
+
+  }
+}
+

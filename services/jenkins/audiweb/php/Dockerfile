@@ -2,6 +2,7 @@ FROM php:7.1-cli
 
 RUN apt-get update && apt-get install -y \
 		openssh-server \
+		zlib1g-dev \
                 wget \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 RUN mkdir /var/run/sshd
@@ -14,9 +15,8 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-
-RUN docker-php-ext-install pdo pdo_mysql
-RUN docker-php-ext-enable pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql zip
+RUN docker-php-ext-enable pdo pdo_mysql zip
 
 COPY ./php-DEV.ini /usr/local/etc/php/php.ini
 
