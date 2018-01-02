@@ -24,17 +24,23 @@ server {
   client_max_body_size 300M;
 
   location / {
-    proxy_pass http://localhost:${PORT_BLOG}/;
-    proxy_set_header Host ${DOLLAR}host;
-    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+    # proxy_pass http://localhost:${PORT_BLOG}/;
+    # proxy_set_header Host ${DOLLAR}host;
     
-    location /wp-login.php {
-      auth_basic           "Auth pleaz";
-      auth_basic_user_file /mnt/data/.htpasswd;
-      proxy_pass http://localhost:${PORT_BLOG}/wp-login.php;
-      proxy_set_header Host ${DOLLAR}host;
-      proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
-    }
+    # proxy_pass https://hmil.github.io/;
+    # proxy_set_header Host hmil.github.io;
+    
+    # proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+
+    return 302 https://hmil.github.io${DOLLAR}request_uri;
+    
+    # location /wp-login.php {
+    #   auth_basic           "Auth pleaz";
+    #   auth_basic_user_file /mnt/data/.htpasswd;
+    #   proxy_pass http://localhost:${PORT_BLOG}/wp-login.php;
+    #   proxy_set_header Host ${DOLLAR}host;
+    #   proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+    # }
 
   }
   
