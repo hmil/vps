@@ -22,7 +22,7 @@ server {
   server_name services.hmil.fr;
   access_log /var/log/services.access combined;
   
-  location /vaultage {
+  location / {
     proxy_pass http://localhost:${PORT_VAULTAGE}/;
     proxy_set_header Host ${DOLLAR}host;
     proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
