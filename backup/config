@@ -1,0 +1,3 @@
+export BACKUP_TARGETS="vaultage"
+export BACKUP_DEST="/mnt/data/cloud/data/hmil/files/backups"
+export DISK_ROOT="/mnt/data"
