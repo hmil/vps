@@ -1,14 +1,3 @@
-set -e
+#!/bin/sh -e
 
-cd "$DISK_ROOT/vaultage"
-
-if [ -e "vaultage" ]; then
-    cd vaultage
-    echo "Updating vaultage"
-    git pull
-else
-    echo "Downloading vaultage"
-    git clone "https://github.com/lbarman/vaultage.git"
-    cd vaultage
-    git checkout v3
-fi
+docker run -d --init -p ${PORT_VAULTAGE}:3000 --name vaultage --restart always -v "$DISK_ROOT/vaultage":/home/node/.vaultage hmil/vaultage
