@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-sudo docker remove vaultage
+sudo docker rm vaultage
