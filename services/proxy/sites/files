@@ -27,8 +27,11 @@ server {
   location / {
     autoindex on;
     root ${DISK_ROOT}/files;
-    auth_basic           "That's all folks!";
-    auth_basic_user_file /mnt/data/.htpasswd;
+    
+    location /downloads {
+      auth_basic           "That's all folks!";
+      auth_basic_user_file /mnt/data/.htpasswd;
+    }
   }
 
   location /.well-known {

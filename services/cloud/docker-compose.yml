@@ -1,29 +1,80 @@
-# ownCloud with MariaDB/MySQL
-#
-# During initial ownCloud setup, select "Storage & database" --> "Configure the database" --> "MySQL/MariaDB"
-# Database user: root
-# Database password: see env file
-# Database name: pick any name
-# Database host: replace "localhost" with "mysql"
+version: '2.1'
 
-version: '2'
 services:
   owncloud:
-    image: owncloud
+    image: "owncloud/server:10.0"
     restart: always
-    volumes:
-      - "${DISK_ROOT}/cloud:/var/www/html"
     ports:
       - "127.0.0.1:${PORT_CLOUD}:80"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - OWNCLOUD_DOMAIN=${CLOUD_HOST}
+      - OWNCLOUD_DB_TYPE=mysql
+      - OWNCLOUD_DB_NAME=owncloud
+      - OWNCLOUD_DB_USERNAME=owncloud
+      - OWNCLOUD_DB_PASSWORD=${CLOUD_DB_PASSWORD}
+      - OWNCLOUD_DB_HOST=db
+      - OWNCLOUD_ADMIN_USERNAME=${CLOUD_ADMIN_USER}
+      - OWNCLOUD_ADMIN_PASSWORD=${CLOUD_ADMIN_PASSWORD}
+      - OWNCLOUD_UTF8MB4_ENABLED=true
+      - OWNCLOUD_REDIS_ENABLED=true
+      - OWNCLOUD_REDIS_HOST=redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/status.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ${DISK_ROOT}/cloud/data:/mnt/data
     logging:
       driver: syslog
       options:
         syslog-address: "tcp://127.0.0.1:514"
         tag: cloud
-  mysql:
+
+  db:
+    image: webhippie/mariadb:latest
     restart: always
-    volumes:
-      - "${DISK_ROOT}/cloud_db:/var/lib/mysql"
-    image: mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: ${CLOUD_MYSQL_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=owncloud
+      - MARIADB_USERNAME=owncloud
+      - MARIADB_PASSWORD=${CLOUD_DB_PASSWORD}
+      - MARIADB_DATABASE=owncloud
+      - MARIADB_MAX_ALLOWED_PACKET=128M
+      - MARIADB_INNODB_LOG_FILE_SIZE=64M
+      - MARIADB_INNODB_LARGE_PREFIX=ON
+      - MARIADB_INNODB_FILE_FORMAT=Barracuda
+    healthcheck:
+      test: ["CMD", "/usr/bin/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ${DISK_ROOT}/cloud/mysql:/var/lib/mysql
+      - ${DISK_ROOT}/cloud/backup:/var/lib/backup
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: cloud
+
+  redis:
+    image: webhippie/redis:latest
+    restart: always
+    environment:
+      - REDIS_DATABASES=1
+    healthcheck:
+      test: ["CMD", "/usr/bin/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ${DISK_ROOT}/cloud/redis:/var/lib/redis
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: cloud
+
