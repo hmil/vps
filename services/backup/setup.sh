@@ -1,6 +1,6 @@
 
 echo "Setting up cron job"
-cronutils update vps_backup "15 10 * * Mon VPS_HOME=\"$VPS_HOME\" \"$VPS_HOME/backup/run.sh\""
+cronutils update vps_backup "15 10 * * Mon VPS_HOME=\"$VPS_HOME\" \"$VPS_HOME/services/backup/run.sh\""
 
 if [ -e "$VPS_HOME/backup/config" ]; then
   . "$VPS_HOME/backup/config"
