@@ -1,0 +1,9 @@
+server {
+  listen 80;
+
+  server_name mqtt.hmil.fr;
+
+  location /.well-known {
+    root /var/www/letsencrypt/mqtt;
+  }
+}

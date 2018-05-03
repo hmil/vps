@@ -1,0 +1,23 @@
+version: "2"
+services:
+  node:
+    image: "node:8"
+    user: "node"
+    restart: always
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - MQTT_USER=${GASTON_MQTT_USER}
+      - MQTT_PASSWORD=${GASTON_MQTT_PASSWORD}
+      - MQTT_HOST=${GASTON_MQTT_HOST}
+      - MQTT_PORT=${GASTON_MQTT_PORT}
+    volumes:
+      - ${DISK_ROOT}/gaston/betta-feeder/server:/home/node/app
+    ports:
+      - "127.0.0.1:${PORT_GASTON}:3000"
+    command: "npm start"
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: gaston

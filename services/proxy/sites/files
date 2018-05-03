@@ -30,7 +30,7 @@ server {
     
     location /downloads {
       auth_basic           "That's all folks!";
-      auth_basic_user_file /mnt/data/.htpasswd;
+      auth_basic_user_file /mnt/data/.chloehtpasswd;
     }
   }
 

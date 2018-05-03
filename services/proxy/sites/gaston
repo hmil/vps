@@ -1,0 +1,37 @@
+server {
+  listen 80;
+  server_name gaston.hmil.fr;
+
+  location / {
+    return 302 https://gaston.hmil.fr;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/gaston;
+  }
+}
+
+server {
+  listen 443 ssl;
+
+  ssl_certificate   /etc/letsencrypt/live/gaston.hmil.fr/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/gaston.hmil.fr/privkey.pem;
+  ssl_protocols   SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers   HIGH:!aNULL:!MD5;
+
+  server_name gaston.hmil.fr;
+  
+  client_max_body_size 0; # disable
+
+  location / {
+    proxy_pass http://localhost:${PORT_GASTON}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+
+    access_log /var/log/gaston.access combined;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/gaston;
+  }
+}

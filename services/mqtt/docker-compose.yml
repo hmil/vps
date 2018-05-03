@@ -1,0 +1,20 @@
+version: '2.1'
+
+services:
+  mosquitto:
+    image: "eclipse-mosquitto"
+    restart: always
+    ports:
+      - "0.0.0.0:${PORT_MQTT}:1883"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ${DISK_ROOT}/mqtt/passwd:/mosquitto/passwd
+      - ${DISK_ROOT}/mqtt/data:/mosquitto/data
+      - ${DISK_ROOT}/mqtt/log:/mosquitto/log
+      - /etc/letsencrypt/live/mqtt.hmil.fr:/var/certs
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:514"
+        tag: mqtt
+

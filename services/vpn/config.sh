@@ -21,6 +21,14 @@ get_client() {
   docker-compose run --rm openvpn ovpn_getclient $1 > $1.ovpn
 }
 
+rm_client() {
+  if [ -z "$1" ]; then
+    echo "Usage: rm_client CLIENT_NAME" 1>&2
+    exit 1
+  fi
+  docker-compose run --rm openvpn ovpn_revokeclient $1
+}
+
 cmd="$1"
 shift
 case $cmd in
@@ -29,6 +37,9 @@ case $cmd in
     ;;
   "get_client" )
     get_client $@
+    ;;
+  "rm_client" )
+    rm_client $@
     ;;
   *)
     usage

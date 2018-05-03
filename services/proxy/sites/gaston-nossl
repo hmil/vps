@@ -1,0 +1,17 @@
+server {
+  listen 80;
+
+  server_name gaston.hmil.fr;
+  
+  client_max_body_size 0; # disable
+
+  location / {
+    proxy_pass http://localhost:${PORT_GASTON}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/gaston;
+  }
+}

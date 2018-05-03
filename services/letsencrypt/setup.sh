@@ -23,6 +23,8 @@ blog="blog blog.hmil.fr"
 cloud="cloud cloud.hmil.fr"
 www="www www.hmil.fr"
 services="services services.hmil.fr"
+mqtt="mqtt mqtt.hmil.fr"
+gaston="gaston gaston.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -44,6 +46,9 @@ case $1 in
   "files" )
     setup $files
     ;;
+  "gaston" )
+    setup $gaston
+    ;;
   "transmission" )
     setup $transmission
     ;;
@@ -52,6 +57,9 @@ case $1 in
     ;;
   "root" )
     setup $root
+    ;;
+  "mqtt" )
+    setup $mqtt
     ;;
   "www" )
     setup $www
