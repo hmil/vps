@@ -29,6 +29,8 @@ server {
     proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
 
     access_log /var/log/gaston.access combined;
+    auth_basic           "Auth pleaz";
+    auth_basic_user_file /mnt/data/.gastonpasswd;
   }
 
   location /.well-known {

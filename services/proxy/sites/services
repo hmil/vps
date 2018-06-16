@@ -27,6 +27,7 @@ server {
     proxy_set_header Host ${DOLLAR}host;
     proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
     proxy_set_header Authorization "";
+    add_header Access-Control-Allow-Origin * always;
 
     auth_basic           "Auth pleaz";
     auth_basic_user_file /mnt/data/.htpasswd;
