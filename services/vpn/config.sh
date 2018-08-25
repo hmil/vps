@@ -1,7 +1,7 @@
 #!/bin/sh
 
 usage() {
-  echo "Usage: config <add_client | get_client> CLIENT_NAME"
+  echo "Usage: config <rm_client | add_client | get_client> CLIENT_NAME"
   exit 1
 }
 
