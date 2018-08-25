@@ -1,0 +1,37 @@
+server {
+  listen 80;
+  server_name turingwars.hmil.fr;
+
+  location / {
+    return 302 https://turingwars.hmil.fr;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/turingwars;
+  }
+}
+
+server {
+  listen 443 ssl;
+
+  ssl_certificate   /etc/letsencrypt/live/turingwars.hmil.fr/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/turingwars.hmil.fr/privkey.pem;
+  ssl_protocols   SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers   HIGH:!aNULL:!MD5;
+
+  server_name turingwars.hmil.fr;
+  
+  client_max_body_size 0; # disable
+
+  location / {
+    proxy_pass http://localhost:${PORT_TURINGWARS}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+
+    access_log /var/log/turingwars.access combined;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/turingwars;
+  }
+}

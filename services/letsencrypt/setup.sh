@@ -25,6 +25,7 @@ www="www www.hmil.fr"
 services="services services.hmil.fr"
 mqtt="mqtt mqtt.hmil.fr"
 gaston="gaston gaston.hmil.fr"
+turingwars="turingwars turingwars.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -51,6 +52,9 @@ case $1 in
     ;;
   "transmission" )
     setup $transmission
+    ;;
+  "turingwars" )
+    setup $turingwars
     ;;
   "cloud" )
     setup $cloud
