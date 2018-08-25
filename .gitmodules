@@ -1,3 +1,3 @@
-[submodule "services/turingwars"]
-	path = services/turingwars
+[submodule "services/turingwars/turingwars-infra"]
+	path = services/turingwars/turingwars-infra
 	url = git@github.com:turingwars/turingwars-infra.git

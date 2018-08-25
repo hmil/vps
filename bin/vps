@@ -145,8 +145,8 @@ if [ -z "$VPS_CONFIG_VERSION" ] || [ "$VPS_CONFIG_VERSION" -lt "$VERSION" ]; the
 fi
 
 . "$VPS_HOME/.config"
-. "$VPS_HOME/env"
 . "$VPS_HOME/ports"
+. "$VPS_HOME/env"
 
 cmd="$1"
 if [ -z "$cmd" ]; then
