@@ -127,6 +127,7 @@ Available commands:
 - setup
 - start
 - stop
+- restart
 - remove
 - logs
 - config
@@ -164,6 +165,10 @@ case $cmd in
     ;;
   "stop" )
     do_stop $@
+    ;;
+  "restart" )
+    do_stop $@
+    do_start $@
     ;;
   "remove" )
     do_remove $@
