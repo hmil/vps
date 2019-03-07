@@ -23,5 +23,6 @@ apt-get install zip syslog-ng fail2ban
 
 # Config
 cp syslog-ng/*.conf /etc/syslog-ng/conf.d/
+cp logrotate/* /etc/logrotate.d/
 
 echo "Done."
