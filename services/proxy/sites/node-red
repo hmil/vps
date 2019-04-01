@@ -1,0 +1,50 @@
+server {
+  listen 80;
+  server_name red.hmil.fr;
+
+  location / {
+    return 302 https://red.hmil.fr;
+  }
+
+  location /.well-known {
+    root /var/www/letsencrypt/red;
+  }
+}
+
+server {
+  listen 443 ssl;
+
+  ssl_certificate   /etc/letsencrypt/live/red.hmil.fr/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/red.hmil.fr/privkey.pem;
+  ssl_protocols   SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers   HIGH:!aNULL:!MD5;
+
+  server_name red.hmil.fr;
+  
+  client_max_body_size 0; # disable
+    
+  location /comms {
+    proxy_http_version 1.1;
+    proxy_pass http://localhost:${PORT_RED}/comms;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+
+    proxy_set_header Upgrade ${DOLLAR}http_upgrade;
+    proxy_set_header Connection "Upgrade";
+  }
+
+  location / {
+    proxy_pass http://localhost:${PORT_RED}/;
+    proxy_set_header Host ${DOLLAR}host;
+    proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+
+    access_log /var/log/gaston.access combined;
+    auth_basic           "Auth pleaz";
+    auth_basic_user_file /mnt/data/.gastonpasswd;
+  }
+
+
+  location /.well-known {
+    root /var/www/letsencrypt/red;
+  }
+}

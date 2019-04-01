@@ -26,12 +26,21 @@ services="services services.hmil.fr"
 mqtt="mqtt mqtt.hmil.fr"
 gaston="gaston gaston.hmil.fr"
 turingwars="turingwars turingwars.hmil.fr"
+red="red red.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
     mkdir "/var/www/letsencrypt/$1"
   fi
   letsencrypt certonly --webroot -w "/var/www/letsencrypt/$1" -d "$2"
+}
+
+setup_wildcard() {
+  certbot -a certbot-dns-ovh certonly \
+    --dns-ovh \
+    --dns-ovh-credentials "${DISK_ROOT}/ovh.ini" \
+    -d hmil.fr \
+    -d *.hmil.fr
 }
 
 case $1 in
@@ -70,6 +79,12 @@ case $1 in
     ;;
   "services" )
     setup $services
+    ;;
+  "red")
+    setup $red
+    ;;
+  "wildcard" )
+    setup_wildcard
     ;;
   * )
     echo "invalid target: $1"
