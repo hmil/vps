@@ -1,6 +1,7 @@
 
 
 if [ -z "`which letsencrypt`" ]; then
+  add-apt-repository ppa:certbot/certbot
   apt-get install letsencrypt
 fi
 
