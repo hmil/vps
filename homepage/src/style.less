@@ -1,0 +1,269 @@
+@background: #1a2336;
+@main: #bdbdb5;
+@main-light: #f1f1f1;
+@secondary: #9ba1ab;
+@highlight: #ffd021;
+
+a {
+  color: @main-light;
+  text-decoration: none;
+  transition: color 120ms linear;
+
+  &:hover {
+    color: @highlight;
+  }
+}
+
+html, body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'PT Sans', Helvetica, sans-serif;
+  background-color: @background;
+  color: @main;
+  font-size: 20px;
+}
+
+body {
+  padding: 20px;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 48px;
+  color: @main-light;
+}
+
+.hero {
+  font-size: 32px;
+}
+
+.links {
+  list-style-type: none;
+  font-size: 40px;
+  line-height: 60px;
+  font-weight: 600;
+
+  li {
+    display: inline-block;
+  }
+
+  li:not(:last-of-type):after {
+    content: ' —';
+  }
+}
+
+hr {
+  border-color: #cebdaa;
+  border-style: solid;
+}
+
+.portfolio {
+  background-color: @secondary;
+  margin: 0 -20px;
+  padding: 0 20px;
+  color: @main-light;
+  padding-top: 15px;
+  padding-bottom: 35px;
+}
+
+.portfolio-intro {
+  margin-bottom: 30px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  margin: 0 -20px;
+  flex-wrap: wrap;
+}
+
+.cell {
+  // border: 1px #a08469 solid;
+  // background: #dcd1c6;
+
+  @media(min-width: 1200px) {
+    height: 20vw;
+    width: 20vw;
+  }
+  @media(min-width: 800px) and (max-width: 1200px) {
+    height: 25vw;
+    width: 25vw;
+  }
+  height: 33vw;
+  width: 33vw;
+
+  padding: 5px;
+  display: block;
+  box-sizing: border-box;
+  
+  .container {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    box-shadow: 1px 1px 5px #00000042;
+
+    &.clicked {
+      // transition: top 500ms ease-out,
+      //             left 500ms ease-out,
+      //             width 500ms ease-out,
+      //             height 500ms ease-out;
+      z-index: 100;
+    }
+
+    .title {
+      opacity: 0;
+      transform: translateY(-80px);
+      position: absolute;
+      width: 100%;
+      height: 200%;
+      background: fadeout(@highlight, 50%);
+      color: #ffff;
+      font-size: 40px;
+      padding: 10px;
+      font-weight: 600;
+      padding-top: 30px;
+      transition: opacity 200ms ease-in,
+                  transform 200ms ease-out;
+    }
+  
+    .background {
+      position: absolute;
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 100%;
+      transition: transform 200ms ease-out,
+                  filter 200ms ease-in;
+    }
+  
+    &:hover:not(.clicked) {
+      box-shadow: 2px 2px 8px #00000042;
+  
+      .background {
+        transform: scale(1.1);
+        // filter: blur(3px) brightness(70%);
+      }
+      .title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.right {
+  float: right;
+}
+
+.footer {
+  background-color: @secondary;
+  color: @main-light;
+  margin: -20px;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.container {
+  // TODO: limit max container size
+  // max-width: 1000px;
+}
+
+.navigation a {
+  color: @main;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 120ms linear;
+
+  &:visited {
+    color: @main;
+  }
+
+  &:hover {
+    color: @highlight;
+  }
+}
+
+.project {
+
+  h1 {
+    display: inline;
+  }
+
+  .bg-container {
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      z-index: 0;
+      overflow: hidden;
+  }
+
+  .project-image {
+    @media (min-width: 1200px) {
+      float:right;
+      width: 40%;
+    }
+    max-width: 800px;
+    margin: 0 80px;
+    margin-top: 50px;
+  }
+
+  .navigation {
+    font-size: 30px;
+    text-align: right;
+    padding: 0 80px;
+  }
+
+  .background {
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      transform: scale(1.5);
+      opacity: 0.2;
+      filter: blur(3px) grayscale(1);
+      width: 100%;
+      height: 100%;
+  }
+
+  .project-description {
+    margin-top: 100px;
+  }
+
+  @keyframes appear {
+      0% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 1;
+      }
+  }
+
+  section {
+    animation: 0.8s ease-out 0s 1 appear;
+    padding: 0 80px;
+  }
+
+  .navigation, section {
+      position: relative;
+  }
+}
+
+.video-container {
+  position: relative;
+  padding-top: 56.25%;
+  height: 0;
+  overflow: hidden;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+  }
+}

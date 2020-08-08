@@ -1,0 +1,631 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Tool language debugger</title>
+    <link rel="stylesheet" href="lib/codemirror-4.8/lib/codemirror.css" />
+    <!-- <link rel="stylesheet" href="codemirror-4.8/theme/default.css" /> -->
+    <script src="lib/codemirror-4.8/lib/codemirror.js"></script>
+    <script src="lib/codemirror-4.8/addon/edit/matchbrackets.js"></script>
+    <script src="lib/codemirror-4.8/mode/clike/clike.js"></script>
+    <script src="lib/codemirror-4.8/mode/coffeescript/coffeescript.js"></script>
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/dojo/1.10.2/dijit/themes/claro/claro.css" media="screen">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body class="claro" style="opacity: 0">
+    <!-- Tags end on line afterwards to eliminate any whitespace -->
+    <div id="toolbar1" data-dojo-type="dijit/Toolbar" class="flat"
+      ><input type="file"
+          data-dojo-type="dijit/form/Button" id="toolbar1.open"
+          data-dojo-props="iconClass:'fa fa-download', showLabel:false"
+      /><span data-dojo-type="dijit/ToolbarSeparator"
+      ></span><div data-dojo-type="dijit/form/Button" id="toolbar1.run"
+          data-dojo-props="iconClass:'fa fa-play', showLabel:false, onClick:runCode">Run</div
+      ><div data-dojo-type="dijit/form/Button" id="toolbar1.pause"
+          data-dojo-props="iconClass:'fa fa-stop', showLabel:false, onClick:resetCode">Stop</div
+      ><div data-dojo-type="dijit/form/Button" id="toolbar1.stepOver"
+          data-dojo-props="iconClass:'fa fa-long-arrow-right', showLabel:false, onClick:stepOver">Step over</div
+      ><div data-dojo-type="dijit/form/Button" id="toolbar1.stepInto"
+          data-dojo-props="iconClass:'fa fa-level-down', showLabel:false, onClick:stepInto">Step into</div
+      ><div data-dojo-type="dijit/form/Button" id="toolbar1.stepOut"
+          data-dojo-props="iconClass:'fa fa-level-up', showLabel:false, onClick:stepOut">Step out</div
+      >
+    </div>
+    <div id="appLayout" class="demoLayout"
+        data-dojo-type="dijit/layout/BorderContainer"
+        data-dojo-props="design: 'headline'">
+      <div
+          data-dojo-type="dijit/layout/BorderContainer"
+          data-dojo-props="design: 'headline', region: 'center'">
+        <div data-dojo-props="region: 'center'" data-dojo-type="dijit/layout/TabContainer" id="tabs" style="width: 100%; height: 100%;">
+          <div class="nochrome" data-dojo-type="dijit/layout/ContentPane" title="Tool" data-dojo-props="selected:true">
+            <textarea id="code" name="code"></textarea>
+          </div>
+          <div class="nochrome" data-dojo-type="dijit/layout/ContentPane" title="asm" data-dojo-props="selected:true">
+            <textarea id="asm" name="asm"></textarea>
+          </div>
+          <script type="dojo/method">initTabs();</script>
+        </div>
+        <pre id="console" class="edgePanel"
+            data-dojo-type="dijit/layout/ContentPane"
+            data-dojo-props="region: 'bottom', splitter: true"></pre>
+      </div>
+      <div id="leftCol"
+          data-dojo-type="dijit/layout/BorderContainer"
+          data-dojo-props="design: 'headline', region: 'right', splitter: true">
+        <div id="variablesPanel" class="edgePanel nochrome"
+            data-dojo-type="dijit/layout/ContentPane"
+            data-dojo-props="region: 'center'">
+          <script type="dojo/method">initVariablesPanel();</script>
+        </div>
+        <div id="callstackPanel" class="edgePanel nochrome"
+            data-dojo-type="dijit/layout/ContentPane"
+            data-dojo-props="region: 'top', splitter: true">
+          <script type="dojo/method">initCallstackList()</script>
+          </div>
+
+        <div id="breakpointsPanel" class="edgePanel nochrome"
+            data-dojo-type="dijit/layout/ContentPane"
+            data-dojo-props="region: 'bottom', splitter: true">
+            <script type="dojo/method">initBreakpointsPanel()</script>
+            <!-- menu -->
+            <ul id="breakpoints_menu" data-dojo-type="dijit/Menu"
+              data-dojo-props='style:"display: none;", targetNodeIds: ["breakpointsPanel"], selector: ".dijitTreeNode"'>
+            <li data-dojo-type="dijit/MenuItem">
+              <script type="dojo/connect" data-dojo-event="onClick">
+                      var item = dijit.byNode(this.getParent().currentTarget).item;
+                      removeBreakpointAction(item.line);
+                </script>
+                    Remove
+                  </li>
+            </ul>
+
+            <!--end menu -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/dojo/1.10.2/dojo/dojo.js" data-dojo-config="async:true, parseOnLoad: true"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="src/log.js"></script>
+
+    <!-- Engine -->
+    <script src="src/Engine.js"></script>
+    <script>
+      var engine = Engine.create();
+    </script>
+
+    <!-- utils -->
+    <script>
+    function openFiles(files, cb) {
+      if (files.length < 1) {
+        alert('No file selected, aborting');
+      }
+      var file = files[0];
+      var fr = new FileReader();
+
+      fr.addEventListener('loadend', function() {
+        try {
+          var progName = file.name.substr(0, file.name.lastIndexOf('.'));
+          log.info('Loading programm '+progName);
+
+          cb(null, fr.result);
+        } catch(e) {
+          cb(e);
+        }
+      });
+
+      fr.readAsText(file);
+    }
+    </script>
+
+    <script src="lib/browserfs.js"></script>
+    <script src="src/ScopeStore.js"></script>
+    <script src="src/CallstackStore.js"></script>
+    <script src="src/BreakpointsStore.js"></script>
+
+    <!-- fs and ScalaJS -->
+    <script type="text/javascript">
+      BrowserFS.install(window);
+
+      var lsfs = new BrowserFS.FileSystem.LocalStorage();
+      // Initialize it as the root file system.
+      BrowserFS.initialize(lsfs);
+
+
+      // export fs object
+      var fs = require('fs');
+
+      __ScalaJSEnv = {
+        exitFunction: function() { throw new Error("Program exited");}
+      };
+
+    </script>
+    <script src="src/tool-compiler-fastopt.js"></script>
+
+
+    <script>
+      require(["dijit/registry", "dijit/layout/BorderContainer",
+          "dijit/layout/TabContainer", "dijit/layout/ContentPane",
+          "dijit/tree/ObjectStoreModel", "dijit/Tree", "dojo/store/Observable",
+          "dijit/MenuBar", "dojo/dom", "dijit/MenuBarItem", "dijit/PopupMenuBarItem",
+          "dijit/DropDownMenu", "dijit/MenuItem",
+          "dojo/domReady!"
+        ],
+        function(registry, BorderContainer, TabContainer, ContentPane, ObjectStoreModel, Tree, Observable , MenuBar, dom) {
+
+          var highlightedLine = -1;
+
+          var ScopeStoreModel = dojo.extend(ObjectStoreModel, {
+              mayHaveChildren: function(node) {
+                return node.hasChildren;
+              },
+
+              getLabel: function(item) {
+                // TODO : temporary fix
+                if(item.isScope || item.isBreakpoint) {
+                  return item.name;
+                }
+
+                return '<span class="var-wrap"><span class="var-name">'+item.name+'</span><span class="var-value">'+item.value+'</span></span>';
+              }
+          });
+
+          var CallstackListStoreModel = _(ObjectStoreModel).extend({
+            mayHaveChildren: function(node) {
+              return false;
+            },
+
+            getLabel: function(item) {
+              return item.name;
+            }
+          });
+
+          var BreakpointsStoreModel = _(ObjectStoreModel).extend({
+            mayHaveChildren: function(node) {
+              return false;
+            },
+
+            getLabel: function(item) {
+              return item.name;
+            }
+          })
+
+
+          function refreshVariablesTree() {
+            var tree = variablesTree;
+            tree.dndController.selectNone();
+            tree._itemNodesMap = {};
+            tree.model.root = null;
+            tree.rootNode.state = "UNCHECKED";
+            if (tree.rootNode) {
+                tree.rootNode.destroyRecursive();
+            }
+            tree.postMixInProperties();
+            tree._load();
+          }
+
+          function refreshCallstackList() {
+            var list = callstackList;
+            list.dndController.selectNone();
+            list._itemNodesMap = {};
+            list.model.root = null;
+            list.rootNode.state = "UNCHECKED";
+            if (list.rootNode) {
+                list.rootNode.destroyRecursive();
+            }
+            list.postMixInProperties();
+            list._load();
+          }
+
+          function refreshBreakpointsList() {
+            var list = breakpointsList;
+            list.dndController.selectNone();
+            list._itemNodesMap = {};
+            list.model.root = null;
+            list.rootNode.state = "UNCHECKED";
+            if (list.rootNode) {
+                list.rootNode.destroyRecursive();
+            }
+            list.postMixInProperties();
+            list._load();
+          }
+
+          document.body.setAttribute('style', '');
+
+          function parseError(msg) {
+            // /test.tool:16:13: Fatal: Unknown operator >
+            var match = /^([^:]+):(\d+):(\d+):.+$/.exec(msg);
+            if (match != null) {
+              reportError(match[1], parseInt(match[2])-1, parseInt(match[3]));
+            }
+          }
+
+          function jumpToLine(i, editor) {
+            var t = editor.charCoords({line: i, ch: 0}, "local").top;
+            var middleHeight = editor.getScrollerElement().offsetHeight / 2;
+            editor.scrollTo(null, t - middleHeight - 5);
+          }
+
+          function highlightLine(i, editor) {
+            var editor = editor || window.editor;
+
+            if(editor._highlightedLine) {
+              editor.removeLineClass(editor._highlightedLine, 'background', 'line-highlight');
+            }
+            editor.addLineClass(i, 'background', 'line-highlight')
+            editor._highlightedLine = i;
+          }
+
+          var markers = [];
+          function clearMarkers() {
+            _.each(markers, function(m) {
+              m.clear();
+            });
+            markers.length = 0;
+            editor.clearGutter('breakpoints');
+          }
+
+          function clearLineHighlights() {
+            var codeLine = engine.getNextLine();
+            if (codeLine < editor.lineCount()) {
+              editor.removeLineClass(codeLine, 'background', 'line-highlight');
+            }
+            var asmLine = engine.getNextASMLine();
+            if (asmLine < asmEdit.lineCount()) {
+              asmEdit.removeLineClass(asmLine, 'background', 'line-highlight');
+            }
+          }
+
+          (function() {
+            var legacy = window.console;
+            var override = {
+              log: function(msg) {
+                log.info(msg);
+                legacy.log.apply(legacy, arguments);
+              },
+              error: function(msg) {
+                parseError(msg);
+                log.error(msg);
+                legacy.error.apply(legacy, arguments);
+              }
+            };
+
+            window.overrideConsole = function() {
+              window.console = override;
+            };
+
+            window.restoreConsole = function() {
+              window.console = legacy;
+            };
+          })();
+
+          window.jsOutput = {
+            collectCompileOutput: function(out) {
+              try {
+                json = JSON.parse(out);
+                engine.load(json);
+                console.log("Program loaded");
+                clearMarkers();
+                clearLineHighlights();
+                refreshBreakpointsList();
+                asmEdit.setValue(engine.getProgramAsText());
+                asmEdit.addLineClass(engine.getNextASMLine(), 'background', 'line-highlight');
+              }
+              catch (e) {
+                console.error(e);
+                console.error(e.stack);
+              }
+            }
+          };
+
+          window.compile = function() {
+            localStorage['prog'] = editor.getValue();
+            fs.writeFile('/test.tool', editor.getValue(), function(err) {
+              if (err) throw err;
+
+              log.info('compiling test.tool');
+              overrideConsole();
+              try {
+                toolc.Main().entry('/test.tool');
+                log.success('done without errors');
+              } catch (e) {
+                console.error(e);
+                console.error(e.stackdata.stack);
+              }
+              restoreConsole();
+            });
+          };
+
+          window.initTabs = function() {
+            var tabs = registry.byId('tabs');
+            tabs.watch("selectedChildWidget", function(name, oval, nval){
+              editor.refresh();
+              asmEdit.refresh();
+            });
+          };
+
+          window.initVariablesPanel = function() {
+            variablesTree.placeAt(registry.byId('variablesPanel')).startup();
+          };
+
+          window.initCallstackList = function() {
+            callstackList.placeAt(registry.byId('callstackPanel')).startup();
+          }
+
+          window.initBreakpointsPanel = function() {
+            breakpointsList.placeAt(registry.byId('breakpointsPanel')).startup();
+          }
+
+          function wrapEngineOp(op) {
+            return function() {
+              if (!engine.isRunning()) return;
+              clearBreakpointsHighlights();
+              asmEdit.removeLineClass(engine.getNextASMLine(), 'background', 'line-highlight');
+              editor.removeLineClass(engine.getNextLine(), 'background', 'line-highlight');
+              try {
+                op();
+              } catch (e) {
+                log.error(e);
+                log.error(e.stack);
+              }
+              callStackStore.setScope(engine.getCurrentScope());
+              refreshVariablesTree();
+
+              callstackListStore.setCallstack(engine.getCallStack());
+              refreshCallstackList();
+
+              if (engine.isRunning()) {
+                asmEdit.addLineClass(engine.getNextASMLine(), 'background', 'line-highlight');
+                jumpToLine(engine.getNextASMLine(), asmEdit);
+
+                highlightLine(engine.getNextLine())
+                //editor.addLineClass(engine.getNextLine(), 'background', 'line-highlight');
+                //highlightedLine = engine.getNextLine();
+                jumpToLine(engine.getNextLine(), editor);
+              } else {
+                log.info("Program ended");
+              }
+            };
+          }
+
+          window.runCode = wrapEngineOp(function () {
+            engine.run();
+          });
+
+          window.stepOver = wrapEngineOp(function () {
+            engine.stepOver();
+          });
+
+          window.stepInto = wrapEngineOp(function () {
+            engine.stepInto();
+          });
+
+          window.stepOut = wrapEngineOp(function () {
+            engine.stepOut();
+          });
+
+          window.resetCode = function() {
+            clearLineHighlights();
+            engine.reset();
+            log.info("Program reinitialized");
+          };
+
+
+          // breakpoints
+
+          var breakpointsStore = new BreakpointsStore();
+          var breakpointsModel = new BreakpointsStoreModel({
+            store: breakpointsStore,
+            labelType: 'html',
+            query: {root: true}
+          });
+          var breakpointsList = new Tree({
+            model: breakpointsModel,
+            showRoot: true,
+            getIconStyle: function() { return {display: "none"} }
+          })
+
+          engine.addBreakpointsListener(function(breakpoints) {
+            breakpointsStore.setBreakpoints(breakpoints);
+            refreshBreakpointsList();
+          });
+
+          window.removeBreakpointAction = function(line) {
+            breakpointsStore.removeBreakpoint(line);
+            engine.removeBreakpoint(line);
+            editor.setGutterMarker(line, "breakpoints", null);
+            editor.removeLineClass(line, 'background', 'breakpoint-line-highlight');
+          }
+
+          function clearBreakpointsHighlights() {
+            var length = engine.getProgramLength();
+            for(var i = 0; i < length; i++) {
+              editor.removeLineClass(i, 'background', 'breakpoint-line-highlight');
+            }
+          }
+
+          dojo.connect(breakpointsList, 'onClick', function(item, node, evt) {
+            var cl = evt.target.className;
+            if(cl == "status-disabled") {
+              evt.target.className = "status-enabled";
+              engine.setBreakpoint(item.line);
+              breakpointsStore.enable(item.line);
+              editor.setGutterMarker(item.line, "breakpoints", makeMarker());
+            }
+            else if(cl == "status-enabled") {
+              evt.target.className = "status-disabled";
+              engine.removeBreakpoint(item.line);
+              breakpointsStore.disable(item.line);
+              editor.setGutterMarker(item.line, "breakpoints", makeMarker(false));
+            }
+            else {
+              clearBreakpointsHighlights();
+              editor.addLineClass(item.line, 'background', 'breakpoint-line-highlight')
+              jumpToLine(item.line, editor);
+            }
+          });
+          // variables
+          var callStackStore = new ScopeStore(engine);
+
+          var myModel = new ScopeStoreModel({
+            store: callStackStore,
+            labelType: 'html',
+            query: {root: true}
+          });
+
+          var variablesTree = new Tree({
+            model: myModel,
+            showRoot: false,
+            getIconStyle: function() {
+              return {display: "none"};
+            }
+          });
+
+          // callstack list
+
+          var callstackListStore = new CallstackStore(engine)
+
+          var model = new CallstackListStoreModel({
+            store: callstackListStore,
+            labelType: "html",
+            query: {root: true}
+          })
+
+          var callstackList = new Tree({
+            model: model,
+            showRoot: false,
+            getIconStyle: function() { return {display: "none" } }
+          })
+
+          dojo.connect(callstackList, 'onClick', function(item, node, evt)  {
+
+              if(item.scope) {
+                callStackStore.setScope(item.scope)
+                refreshVariablesTree()
+                var sourceLine;
+                var asmLine;
+
+                var nextSibling = node.getNextSibling();
+                if(nextSibling) {
+                  sourceLine = nextSibling.item.scope.ret_line;
+                  asmLine = nextSibling.item.scope.ret_addr;
+                }
+                else {
+                  sourceLine = engine.getNextLine();
+                  asmLine = engine.getNextASMLine();
+                }
+                highlightLine(sourceLine);
+                jumpToLine(sourceLine, editor);
+
+                highlightLine(asmLine, asmEdit);
+                jumpToLine(asmLine, asmEdit);
+              }
+          });
+
+
+
+          var myTextArea = document.getElementById("code");
+          window.editor = CodeMirror(function(elt) {
+            myTextArea.parentNode.replaceChild(elt, myTextArea);
+          }, {
+            lineNumbers: true,
+            matchBrackets: true,
+            theme: "default",
+            mode: "text/x-scala",
+            gutters: [
+              'CodeMirror-linenumbers',
+              'breakpoints'
+            ],
+            value: localStorage['prog'] ||
+              "object QuickSort {\n    def main() : Unit = {\n        println(new QS().Start(10));\n    }\n}\n\n// This class contains the array of integers and\n// methods to initialize, print and sort the array\n// using Quicksort\nclass QS {\n    var number : Int[];\n    var size : Int;\n\n    // Invoke the Initialization, Sort and Printing\n    // Methods\n    def Start(sz : Int) : Int = {\n        var aux01 : Int;\n        aux01 = this.Init(sz);\n        aux01 = this.Print();\n        println(9999);\n        aux01 = size - 1 ;\n        aux01 = this.Sort(0,aux01);\n        aux01 = this.Print();\n        return 9999;\n    }\n\n    // Sort array of integers using Quicksort method\n    def Sort(left : Int, right : Int) : Int = {\n        var v : Int;\n        var i : Int;\n        var j : Int;\n        var nt : Int;\n        var t : Int;\n        var cont01 : Bool;\n        var cont02 : Bool;\n        var aux03 : Int;\n\n        t = 0 ;\n        if (left < right){\n            v = number[right] ;\n            i = left - 1 ;\n            j = right ;\n            cont01 = true ;\n            while (cont01){\n                cont02 = true ;\n                while (cont02){\n                    i = i + 1 ;\n                    aux03 = number[i] ;\n                    if (!(aux03<v)) cont02 = false ;\n                    else cont02 = true ;\n                }\n                cont02 = true ;\n                while (cont02){\n                    j = j - 1 ;\n                    aux03 = number[j] ;\n                    if (!(v < aux03)) cont02 = false ;\n                    else cont02 = true ;\n                }\n\n\n                t = number[i] ;\n                number[i] = number[j] ;\n                number[j] = t ;\n                //aux03 = i + 1 ;\n                if ( j < (i+1)) cont01 = false ;\n                else cont01 = true ;\n            }\n            number[j] = number[i] ;\n            number[i] = number[right] ;\n            number[right] = t ;\n            nt = this.Sort(left,i-1);\n            nt = this.Sort(i+1,right);\n        }\n        else nt = 0 ;\n        return 0 ;\n    }\n\n    def Print() : Int = {\n        var j : Int;\n\n        j = 0 ;\n        while (j < (size)) {\n            println(number[j]);\n            j = j + 1 ;\n        }\n        return 0 ;\n    }\n\n    // Initialize array of integers\n    def Init(sz : Int) : Int = {\n        size = sz ;\n        number = new Int[sz] ;\n\n        number[0] = 20 ;\n        number[1] = 7  ; \n        number[2] = 12 ;\n        number[3] = 18 ;\n        number[4] = 2  ; \n        number[5] = 11 ;\n        number[6] = 6  ; \n        number[7] = 9  ; \n        number[8] = 19 ; \n        number[9] = 5  ;\n\n        return 0 ;  \n    }\n}\n"
+          });
+
+          // Setup "as-you-type" compilation
+          var lazyCompile = _.debounce(compile, 1000);
+          editor.on("change", lazyCompile);
+          lazyCompile();
+
+          function reportError(file, line, col) {
+            var tk = editor.getTokenAt({line: line, ch: col});
+            markers.push(editor.markText({line: line, ch: tk.start}, {line: line, ch: tk.end}, {className: 'mark-error'}));
+            editor.setGutterMarker(line, "breakpoints", makeErrorMarker());
+          }
+
+          var asmTextArea = document.getElementById("asm");
+          window.asmEdit = CodeMirror(function(elt) {
+            asmTextArea.parentNode.replaceChild(elt, asmTextArea);
+          }, {
+            lineNumbers: true,
+            readOnly: true,
+            theme: "default",
+            mode: "coffeescript",
+            gutters: [
+              'CodeMirror-linenumbers',
+              'breakpoints'
+            ]
+          });
+
+          editor.on("gutterClick", function(cm, n) {
+            var info = cm.lineInfo(n);
+            if (info.gutterMarkers) {
+              breakpointsStore.removeBreakpoint(n);
+              engine.removeBreakpoint(n);
+              cm.setGutterMarker(n, "breakpoints", null);
+            } else {
+              for (var i = 0 ; i < 10 ; ++i) {
+                if (engine.isBreakable(n+i+1)) {
+                  if (!engine.hasBreakpoint(n+i)) {
+                    engine.setBreakpoint(n+i);
+                    cm.setGutterMarker(n+i, "breakpoints", makeMarker());
+                  }
+                  break;
+                }
+              }
+            }
+          });
+
+          function makeMarker(enabled) {
+            var marker = document.createElement("div");
+            marker.style.color = "#f00";
+            if(enabled === false) {
+              marker.style.color = "#4f4242";
+            }
+            marker.innerHTML = "●";
+            return marker;
+          }
+
+          function makeErrorMarker() {
+            var marker = document.createElement("div");
+            marker.style.color = "#a00";
+            marker.innerHTML = "✗";
+            return marker;
+          }
+
+
+          // Start-up refresh
+          window.setTimeout(function() {
+            editor.refresh();
+
+            var open = document.getElementById('toolbar1.open').parentElement.nextSibling;
+            open.addEventListener('change', function() {
+              openFiles(this.files, function(err, data) {
+                if (err) {
+                  log.error(err);
+                } else {
+                  editor.setValue(data);
+                }
+              });
+            });
+          }, 500);
+
+          log('\t### Tool debugger ###\n\n');
+          log('A debugger for tool, a language designed for EPFL\'s "compiler construction" course ( http://lara.epfl.ch/w/cc14:top ).\n');
+          log('Run the code step-by-step, set breakpoints and inspect the scope like you\'d do with any debugger.');
+          log('Source at https://github.com/hmil/tool_dbg');
+          log('Credits: Hadrien Milano & Christophe Tafani-Dereeper\n\n');
+        });
+    </script>
+  </body>
+</html>

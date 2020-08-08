@@ -1,0 +1,14 @@
+---
+
+title: Choixpeau
+description: |-
+  The sorting hat from the Harry Potter franchise assigns party guests to their respective house.
+
+  An ESP8266 is wired to some speakers and a detector. A magician hidden in the crowd may remotely coerce the hat to chose a specific house and trivia.
+
+background: vaultage.jpg
+image: vaultage.jpg
+
+actions:
+  - text: View project source
+    link: https://github.com/hmil/choixpeau

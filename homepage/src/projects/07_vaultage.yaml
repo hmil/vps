@@ -1,0 +1,17 @@
+---
+
+title: Vaultage
+description: |-
+  A web-based password manager encrypts the user's secrets at rest and in transit.
+
+  An open source collaboration with [Ludovic Barman](https://lbarman.ch/).  
+  Written on Node.JS and "vanilla" TypeScript
+
+background: vaultage.jpg
+image: vaultage.jpg
+
+actions:
+  - text: Project homepage
+    link: https://github.com/vaultage-pm/vaultage
+  - text: Live demo
+    link: https://vaultage-demo.lbarman.ch/

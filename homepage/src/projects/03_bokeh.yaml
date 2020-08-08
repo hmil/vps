@@ -1,0 +1,12 @@
+---
+
+title: Bokeh Generator
+description: |-
+  A web application generates virtually infinite bokeh-inspired designs derived from the user's name.
+
+background: bokeh.png
+image: bokeh-2.jpg
+
+actions:
+  - text: Try it live
+    link: ../art.html

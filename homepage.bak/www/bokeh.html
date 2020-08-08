@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bokeh generator</title>
+  <style>
+  html, body {
+    margin: 0;
+    background-color: #111;
+  }
+
+  #root {
+    padding-top: 30px;
+  }
+
+  #canvas {
+    background-color: #000;
+    margin: auto;
+    display: block;
+  }
+
+  #controls {
+    padding: 5px;
+    width: 200px;
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.566);
+    border: 1px #000 solid;
+    color: white;
+  }
+
+  #controls > h2 {
+    margin: 0;
+    padding-left: 10px;
+  }
+
+  #controls > .item {
+    margin-top: 5px;
+  }
+
+  #controls > .item > input {
+    width: 90px;
+  }
+
+  #controls > .item > label {
+    width: 80px;
+    margin-right: 10px;
+    float: left;
+    text-align: right;
+  }
+
+  input {
+    width: 100%;
+    background-color: #000;
+    color: white;
+    border: 1px #222 solid;
+  }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <div id="controls">
+      <h2>Background</h2>
+      <div class="item">
+        <label for="turbulence">Turbulence</label>
+        <input type="number" id="turbulence" onchange="generate()" value="0.45" min="0" max="1" step="0.05" />
+        <label for="luma">Lightness</label>
+        <input type="number" id="luma" onchange="generate()" value="0.8" min="0" max="1" step="0.01" />
+      </div>
+      <h2>Spots</h2>
+      <div class="item">
+        <label for="density">Density</label>
+        <input type="number" id="density" onchange="generate()" value="90" />
+      </div>
+      <div class="item">
+        <label for="depth">Depth</label>
+        <input type="number" id="depth" onchange="generate()" value="0.35" min="0" max="1" step="0.05"/>
+      </div>
+      <div class="item">
+        <label for="intensity">Intensity</label>
+        <input type="number" id="intensity" onchange="generate()" value="0.7" min="0" max="1" step="0.05" />
+      </div>
+      <div class="item">
+        <label for="scale">Scale</label>
+        <input type="number" id="scale" onchange="generate()" value="12" min="0" max="200" step="1" />
+      </div>
+      <div class="item">
+        <label for="variance">Variance</label>
+        <input type="number" id="variance" onchange="generate()" value="3.5" min="1" max="10" step="0.1" />
+      </div>
+      <div class="item">
+        <label for="sampling">Sampling</label>
+        <input type="number" id="sampling" onchange="generate()" value="200" min="1" max="1000" step="1" />
+      </div>
+      <div class="item">
+        <label for="seed">Seed</label>
+      <input type="number" id="seed" onchange="generate()" value="1338" /><br>
+    </div>
+  </div>
+  <script>
+    let ctx = document.getElementById('canvas').getContext('2d');
+    let densityCtrl = document.getElementById('density');
+    let depthCtrl = document.getElementById('depth');
+    let turbulenceCtrl = document.getElementById('turbulence');
+    let intensityCtrl = document.getElementById('intensity');
+    let seedCtrl = document.getElementById('seed');
+    let scaleCtrl = document.getElementById('scale');
+    let varianceCtrl = document.getElementById('variance');
+    let samplingCtrl = document.getElementById('sampling');
+    let lumaCtrl = document.getElementById('luma');
+    let MAX_DEPTH = 600;
+    let width = 1000;
+    let height = 1000;
+    let current_rnd = 0;
+
+    seed();
+
+    let sRGB = {
+      Yr: 0.2126, Yg:	0.7152, Yb:	0.0722
+    };
+
+    window.setTimeout(function() {
+      generate();
+    });
+
+    function seed() {
+      let match = window.location.search.match(/seed=([^&#]+)/);
+      if (match) {
+        let seedText = decodeURIComponent(match[1]);
+        console.log('Seed ' + seedText);
+        for (let i = 0 ; i < seedText.length ; i++) {
+          current_rnd = random() + seedText.charCodeAt(i);
+        }
+
+        densityCtrl.value = Rint(50, 150);
+        scaleCtrl.value = Rint(5, 30);
+        intensityCtrl.value = R(0.1, 1);
+        samplingCtrl.value = Rint(50, 500);
+        depthCtrl.value = R(0.2, 1);
+        varianceCtrl.value = R(2, 5);
+        seedCtrl.value = Rint(0, 100000);
+      } else {
+        seedCtrl.value = Math.floor(Math.random() * 10000);
+      }
+    }
+
+    function generate() {
+      let density = densityCtrl.value;
+      let depth = depthCtrl.value;
+      let turbulence = turbulenceCtrl.value;
+      let order = 1 - turbulence;
+      let intensity = intensityCtrl.value;
+      let scale = scaleCtrl.value;
+      let variance = varianceCtrl.value;
+      let sampling = samplingCtrl.value;
+      let luma = lumaCtrl.value;
+      current_rnd = seedCtrl.value;
+      let foregroundSeed = random();
+
+      clear();
+
+      drawBackground(turbulence, luma);
+
+      current_rnd = foregroundSeed;
+      ctx.globalCompositeOperation = 'screen';
+      for (let i = 0 ; i < density ; i++) {
+        let x = R(0, width);
+        let y = R(0, height);
+        let sx = Math.max(0, Math.min(width - 1, x + parseInt(R(-sampling, sampling))));
+        let sy = Math.max(0, Math.min(height - 1, y + parseInt(R(-sampling, sampling))));
+        let sample = ctx.getImageData(sx, sy, 1, 1).data;
+        let color = {
+          r: sample[0],
+          g: sample[1],
+          b: sample[2],
+          a: R(Math.max(intensity * 2 - 1, 0), Math.min(intensity*2, 1))
+        };
+        makeSpot(x, y, R2(0, depth), R(1, variance) * scale, color);
+      }
+
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = 'rgb(0,0,0)';
+      ctx.filter = 'none';
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    function drawBackground(T, L) {
+      let randomScale = R(0.5, 1);
+      let r_min = 100 * randomScale;
+      let r_max = width * randomScale;
+      let S = width * height;
+      let i_mean = 0.5 * sRGB.Yr + 0.5 * sRGB.Yg + 0.5 * sRGB.Yb;
+      let r_mean = r_min + (r_max / 2);
+
+      let r = ( 1 - T ) * (r_max - r_min) + r_min;
+      let n = (S * randomScale) / (i_mean * Math.PI * r * r);
+
+      let N = Math.ceil(n);
+      let blurFactor = ((1 - T) * 0.6 + 0.4) * randomScale;
+
+      console.log('Background parameters: r= ' + r + ' ; n= ' + n);
+
+      // Now that we worked out the math, the actual drawing
+
+      ctx.globalCompositeOperation = 'source-over';
+
+      for (let i = 0 ; i < N ; i++) {
+        let color = randomColor();
+
+        let this_r = r * R(-1, 1) * T * 0.5 + r;
+
+        let i_this = color.r / 255 * sRGB.Yr + color.g / 255 * sRGB.Yg + color.b / 255 * sRGB.Yb;
+        color.a = Math.min(1, L);
+        makeSpot(R(0, width), R(0, height), blurFactor, this_r, color);
+      }
+    }
+
+    function analyzeLuma() {
+      let image = ctx.getImageData(0, 0, width, height);
+      const N = width * height;
+      let acc = 0;
+      for (let i = 0 ; i < N ; i++) {
+        let r = image.data[i * 4] / 255;
+        let g = image.data[i * 4 + 1] / 255;
+        let b = image.data[i * 4 + 2] / 255;
+
+        let luma = r * sRGB.Yr + g * sRGB.Yg + b * sRGB.Yb;
+        acc += luma;
+      }
+      return acc / N;
+    }
+
+    function randomColor() {
+      return {
+        r: random() * 256,
+        g: random() * 256,
+        b: random() * 256,
+        a: 1
+      };
+    }
+
+    function Rint(min, max) {
+      return Math.floor(R(min, max));
+    }
+
+    function R(min, max) {
+      return random() * (max - min) + min;
+    }
+
+    function R2(min, max) {
+      let r = random();
+      return r * r * (max - min) + min;
+    }
+
+    function rgba2string(hsla) {
+      return 'rgba(' + Math.round(hsla.r) + ', ' + Math.round(hsla.g) + ', ' + Math.round(hsla.b) + ', ' + hsla.a + ')';
+    }
+
+    function string2rgba(string) {
+      let match = string.match(/^rgba?\(([\d\.]+), *([\d\.]+), *([\d\.]+)(?:, *([\d\.]+))?\)$/);
+      if (match == null) {
+        throw 'Invalid color: ' + string;
+      }
+      return {
+        r: parseInt(match[1]),
+        g: parseInt(match[2]),
+        b: parseInt(match[3]),
+        a: parseInt(match[4]) || 1
+      }
+    }
+
+    function random() {
+        var x = Math.sin(current_rnd++) * 10000;
+        return x - Math.floor(x);
+        //return Math.random();
+    }
+
+    function clear() {
+      ctx.globalCompositeOperation = 'copy';
+      ctx.fillStyle = 'rgba(0,0,0,0)';
+      ctx.filter = 'none';
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    function makeSpot(x, y, depth, radius, color) {
+
+      let blur = depth * depth * MAX_DEPTH;
+
+      ctx.filter = 'blur(' + blur + 'px)';
+      ctx.fillStyle = rgba2string(color);
+
+      ctx.beginPath();
+      ctx.arc(x,y,radius,0,Math.PI*2,true)
+      ctx.fill();
+    }
+  </script>
+</body>
+</html>

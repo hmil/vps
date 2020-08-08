@@ -1,0 +1,16 @@
+---
+
+title: ESPong
+description: |-
+  A device lets players compete in a multiplayer game of pong.
+
+  Initially meant as a peripheral chip to provide wifi capabilities to embedded
+  applications, the ESP8266 is subverted to run a networked multiplayer game in
+  a single chip configuration.
+
+background: espong.jpg
+video: https://www.youtube.com/embed/GfEgq1qtt-4
+
+actions:
+  - text: Read the blog post
+    link: https://code.hmil.fr/2020/03/game-of-pong-on-esp8266/

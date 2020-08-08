@@ -1,0 +1,43 @@
+<div class="page">
+    <h1>Hadrien Milano</h1>
+    <p class="hero">I write code for a living and build random things for fun.</p>
+    <ul class="links">
+        <li><a href="https://code.hmil.fr">Blog</a></li>
+        <li><a href="https://github.com/hmil">GitHub</a></li>
+        <li><a href="./cv.html">Contact</a></li>
+    </ul>
+    <p>Below are some curiosities I made:</p>
+    <section class="portfolio">
+        <div class="container">
+            <!-- <p class="portfolio-intro">Below are some of my creations.</p> -->
+            <div class="grid">
+                {{#each projects}}
+                    <a href="/projects/{{name}}.html" data-project="{{name}}" class="cell">
+                        <div class="container">
+                            <div class="background" style="background-image: url(./resources/{{background}});"></div>
+                            <div class="title">{{title}}</div>
+                        </div>
+                    </a>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1>About</h1>
+        <p>
+        My name is Hadrien Milano. I graduated with a Masters Degree in computer science from Ecole Polytechnique Fédérale de Lausanne (EPFL), Switzerland in 2018.<br/>
+        I am currently working at AppDynamics as a software engineer in UI.
+        </p>
+        <p>
+        I like to tackle ambitious projects to innovate, create original contraptions or just for the sake of learning new skills.<br />
+        This website shows some successful projects worth remembering.
+        </p>
+        <p>
+        I speak french and english. Get in touch with me using my contact informations at the top of this page.
+        </p>
+    </section>
+    <section class="footer">
+        <div class="right"><a href="https://github.com/hmil/vps/blob/master/homepage/www/index.html">Website source</a></div>
+        2020, all rights reserved. 🇨🇭Made in Switzerland.
+    </section>
+</div>

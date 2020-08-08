@@ -1,12 +1,9 @@
 
-all: www/style.css scene/node_modules www/scene.js
+all: www/style.css app
 
-www/style.css: www/style.less
-	lessc www/style.less www/style.css
+www/style.css: src/style.less
+	lessc src/style.less www/style.css
 
-scene/node_modules: scene/package.json
-	cd scene && npm install
-
-www/scene.js: $(wildcard scene/src/*.ts) $(wildcard scene/src/shades/*)
-	cd scene && npm run dist
-	
+.PHONY: app
+app:
+	yarn build

@@ -1,0 +1,14 @@
+---
+
+title: TOOL debugger
+description: |-
+  A debugger for a simple object oriented language lets users run any program step by step and inspect variables.
+
+  The compiler and runtime are written in Scala and compiled with Scala.js.  
+  The web interface and debugger are written in JavaScript.
+
+background: tool-dbg.jpg
+image: tool-dbg.jpg
+actions:
+  - text: Try it now
+    link: /tool_dbg/

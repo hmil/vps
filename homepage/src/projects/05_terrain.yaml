@@ -1,0 +1,10 @@
+---
+
+title: OpenGL terrain generator
+description: |-
+  An infinite 3D terrain is generated procedurally in OpenGL with advanced visual effects.
+
+  Made as a school project for the undergrad course Introduction to Computer Graphics, with several custom enhancements over the baseline.
+
+background: terrain.jpg
+video: https://www.youtube.com/embed/fEae1uH4HC4

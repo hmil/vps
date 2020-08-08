@@ -1,0 +1,15 @@
+---
+
+title: Clapruptor
+description: |-
+  A small device placed on a USB power outlet allows users to turn the lights on and off with a clap of hands.
+
+  The system is extremely power efficient, drawing only a few microamps in continuous operation.
+
+  Sound is captured by a condenser microphone and is processed by an analog circuit. The filtered signal is fed into an interrupt handler on an Attiny microcontroller.
+
+  A custom PCB was designed in EAGLE and manufactured by jlcpcb.  
+  The 3d printed enclosure was designed in OnShape.
+
+background: clapruptor-2.jpg
+video: https://www.youtube.com/embed/C0r43Hcew0I

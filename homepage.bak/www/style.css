@@ -1,0 +1,246 @@
+html,
+body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'PT Sans', sans-serif;
+  color: #dddce8;
+}
+h1 {
+  color: #f1f1f7;
+  font-size: 2em;
+  margin-bottom: 0;
+}
+h2 {
+  color: #f1f1f7;
+  font-size: 1.25em;
+}
+body {
+  background: #000;
+  overflow: auto;
+}
+.anim-pending a {
+  opacity: 0.2;
+}
+.anim-pending .title {
+  opacity: 0.2;
+}
+a,
+a:focus,
+a:visited,
+a:active {
+  color: #eee;
+  text-decoration: none;
+  border: none;
+}
+a:hover {
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+}
+#glcanvas {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+#container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: auto;
+  margin-top: 50px;
+  text-align: center;
+}
+#container,
+#the_demos {
+  transition-property: opacity;
+  transition-duration: 1000ms;
+  opacity: 1;
+}
+.invisible {
+  opacity: 0 !important;
+}
+.title {
+  display: inline-block;
+  margin-top: 270px;
+}
+.animated .title {
+  animation-name: appear-title;
+  animation-duration: 4.5s;
+}
+.icons {
+  top: 0;
+  position: absolute;
+  list-style-type: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.icons > li {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  width: 30%;
+  margin: auto;
+}
+.icons > li i {
+  margin-bottom: 5px;
+}
+#pages-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 670px;
+  overflow: hidden;
+  top: 0;
+}
+.page {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transition-property: transform;
+  transition-duration: 1000ms;
+}
+.page-1 {
+  top: 0%;
+}
+#pages-container.focus-1 > .page {
+  transform: translateY(0%);
+}
+.page-2 {
+  top: 100%;
+}
+#pages-container.focus-2 > .page {
+  transform: translateY(-100%);
+}
+#the_demos {
+  padding: 30px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+#the_demos .nav-btn {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+.demo-list {
+  list-style-type: none;
+}
+.demo-list li {
+  margin: 4px 0px;
+}
+.demo-list li .fa {
+  vertical-align: middle;
+}
+.rot-1 {
+  transform: rotate(-60deg) translate(250px) rotate(60deg);
+}
+.animated .rot-1 {
+  animation-name: appear-icon;
+  animation-duration: 2300ms;
+}
+.rot-2 {
+  transform: rotate(-120deg) translate(250px) rotate(120deg);
+}
+.animated .rot-2 {
+  animation-name: appear-icon;
+  animation-duration: 1600ms;
+}
+.rot-3 {
+  transform: rotate(-180deg) translate(250px) rotate(180deg);
+}
+.animated .rot-3 {
+  animation-name: appear-icon;
+  animation-duration: 2400ms;
+}
+.rot-4 {
+  transform: rotate(-240deg) translate(250px) rotate(240deg);
+}
+.animated .rot-4 {
+  animation-name: appear-icon;
+  animation-duration: 1700ms;
+}
+.rot-5 {
+  transform: rotate(-300deg) translate(250px) rotate(300deg);
+}
+.animated .rot-5 {
+  animation-name: appear-icon;
+  animation-duration: 2500ms;
+}
+.rot-6 {
+  transform: rotate(-360deg) translate(250px) rotate(360deg);
+}
+.animated .rot-6 {
+  animation-name: appear-icon;
+  animation-duration: 1800ms;
+}
+@keyframes appear-title {
+  from {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  80% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  81% {
+    opacity: 1;
+    text-shadow: 0 0 10px #fff;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 3px #fff;
+  }
+}
+@keyframes appear-icon {
+  from {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  24% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  25% {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+  26% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  64% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  65% {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+  66% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  84% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  85% {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+  86% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  99% {
+    opacity: 0.2;
+    text-shadow: 0 0 0 #fff;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 5px #fff;
+  }
+}

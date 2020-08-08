@@ -1,0 +1,19 @@
+---
+
+title: Turing Wars
+description: |-
+  Players write programs which compete in deathmatch duels inside a virtual machine.
+  
+  A hackathon collaboration of 4 people which was further improved over the course of a few months.
+  
+  The Game UI is built on React with TypeScript. The Script parser is written in TypeScript.  
+  The execution engine is written in Scala and compiled for the web with Scala.js.
+
+background: turingwars.jpg
+image: turingwars-2.jpg
+
+actions:
+  - text: Play now
+    link: https://turingwars.hmil.fr/
+  - text: Read the manual
+    link: https://github.com/turingwars/turingwars/wiki/Player-guide

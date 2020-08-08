@@ -1,3 +1,5 @@
 .config
 local_data
 env
+.DS_Store
+node_modules
