@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   owncloud:
-    image: "owncloud/server:${OWNCLOUD_VERSION}"
+    image: "owncloud/server:10.3"
     restart: always
     ports:
       - "127.0.0.1:${PORT_CLOUD}:8080"
