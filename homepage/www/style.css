@@ -117,6 +117,7 @@ hr {
 }
 .cell .container:hover:not(.clicked) .background {
   transform: scale(1.1);
+  filter: brightness(70%);
 }
 .cell .container:hover:not(.clicked) .title {
   opacity: 1;
