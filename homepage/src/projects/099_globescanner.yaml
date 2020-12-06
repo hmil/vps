@@ -12,6 +12,6 @@ actions:
   - text: Try it live
     link: https://code.hmil.fr/globescanner/
   - text: Source code
-    link: https://github.com/globescanner
+    link: https://github.com/hmil/globescanner
 
 date: 2020
