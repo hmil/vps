@@ -1,0 +1,17 @@
+---
+
+title: GlobeScanner
+description: |-
+  Real time flight data is projected on a 3D earth.  
+
+  Built with Three.js and WebGL. Custom shaders were written for the athmosphere effect and dynamic earth texture.
+
+image: globescanner-image.jpg
+background: globescanner.jpg
+actions:
+  - text: Try it live
+    link: https://code.hmil.fr/globescanner/
+  - text: Source code
+    link: https://github.com/globescanner
+
+date: 2020

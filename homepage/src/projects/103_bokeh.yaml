@@ -10,3 +10,5 @@ image: bokeh-2.jpg
 actions:
   - text: Try it live
     link: ../art.html
+
+date: 2017

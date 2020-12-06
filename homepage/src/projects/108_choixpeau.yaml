@@ -13,3 +13,5 @@ image: sortinghat-2.jpg
 actions:
   - text: View project source
     link: https://github.com/hmil/choixpeau
+
+date: 2019

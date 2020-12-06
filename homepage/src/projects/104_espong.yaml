@@ -14,3 +14,5 @@ video: https://www.youtube.com/embed/GfEgq1qtt-4
 actions:
   - text: Read the blog post
     link: https://code.hmil.fr/2020/03/game-of-pong-on-esp8266/
+
+date: 2019
