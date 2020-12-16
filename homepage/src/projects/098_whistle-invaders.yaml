@@ -1,0 +1,16 @@
+---
+
+title: Whistle Invaders
+description: |-
+  The player uses his whistling to control a spaceship and destroy as many asteroids as possible.
+
+  Made during a one-day hackathon project in a team of 3.  
+  WebAudio / TypeScript / HTML Canvas
+
+image: whistle-invaders.png
+background: whistle-invaders.png
+actions:
+  - text: Try it live
+    link: https://code.hmil.fr/whistle-invaders/
+
+date: 2020
