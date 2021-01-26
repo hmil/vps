@@ -2,7 +2,7 @@
 
 title: Globe Scanner
 description: |-
-  Real time flight data is projected on a 3D earth.  
+  Aircraft flight data is projected on a 3D earth in real time.  
 
   Built with Three.js and WebGL. Custom shaders were written for the athmosphere effect and dynamic earth texture.
 

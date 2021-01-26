@@ -76,7 +76,7 @@ hr {
 @media (min-width: 1200px) {
   .cell {
     height: 20vw;
-    width: 20vw;
+    width: 20%;
   }
 }
 @media (min-width: 800px) and (max-width: 1200px) {

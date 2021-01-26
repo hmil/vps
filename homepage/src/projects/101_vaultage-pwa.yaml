@@ -6,7 +6,7 @@ description: |-
   although based on web technologies, can be installed on a mobiled device and works offline
   just like a native app.
 
-  The app was build with Angular 9 and served as a testing ground for the [ng-vacuum](https://code.hmil.fr/ng-vacuum)
+  The app was built with Angular 9 and served as a testing ground for the [ng-vacuum](https://code.hmil.fr/ng-vacuum)
   package.
 
 background: vaultage-pwa.jpg

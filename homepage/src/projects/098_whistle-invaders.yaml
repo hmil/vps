@@ -2,7 +2,7 @@
 
 title: Whistle Invaders
 description: |-
-  The player uses his whistling to control a spaceship and destroy as many asteroids as possible.
+  The player whistles high and low notes to control a spaceship up and down the screen and destroy as many asteroids as possible.
 
   Made during a one-day hackathon project in a team of 3.  
   WebAudio / TypeScript / HTML Canvas
