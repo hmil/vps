@@ -5,7 +5,7 @@ description: |-
   The Sorting Hat from the Harry Potter franchise assigns party guests to their respective house.
 
   An ESP8266 is wired to some speakers, a detector and a battery pack.  
-  A magician hidden in the crowd may remotely coerce the hat to chose a specific house and trivia.
+  A wizard hidden in the crowd may remotely coerce the hat to chose a specific house and trivia.
 
 background: sortinghat.jpg
 image: sortinghat-2.jpg
