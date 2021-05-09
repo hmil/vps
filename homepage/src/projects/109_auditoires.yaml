@@ -1,0 +1,19 @@
+---
+
+title: Expériences en Auditoire
+description: |-
+  An ERP-style application was built for the physics department of EPFL.
+  It allows teachers to order experiments for their auditorium courses.
+
+  Preparators publish experiments on the website and get order books for the day.
+
+  Built with Laravel and Vue.js.
+
+background: auditoires.jpg
+image: auditoires-detail.jpg
+
+actions:
+  - text: Visit website
+    link: https://auditoires-physique.epfl.ch/
+
+date: 2017
