@@ -6,4 +6,5 @@ www/style.css: src/style.less
 
 .PHONY: app
 app:
+	rm -f www/bundle-*.json
 	yarn build

@@ -177,7 +177,7 @@ function loadAppBundle() {
         xhr.onload = function() {
             resolve(JSON.parse(xhr.responseText));
         }
-        xhr.open('GET', '/bundle.json');
+        xhr.open('GET', `/bundle-${version}.json`);
         xhr.send();
     });
 }

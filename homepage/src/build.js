@@ -12,6 +12,7 @@ const templates = {
     index: loadTemplate('index')
 }
 
+const version = Math.floor(Math.random() * 0x100000000).toString(16);
 const projects = fs.readdirSync(path.join(__dirname, "projects"))
     .sort()
     .map(loadProject);
@@ -28,7 +29,8 @@ function buildIndex() {
         projects
     });
     const htmlOutput = templates.scaffold({
-        content
+        content,
+        version
     });
     const dest = path.join(__dirname, "../www/index.html");
     fs.writeFileSync(dest, htmlOutput, { encoding: 'utf-8' });
@@ -56,7 +58,8 @@ function buildProject(project) {
 
     const htmlOutput = templates.scaffold({
         title: project.title,
-        content: projectOutput
+        content: projectOutput,
+        version
     });
 
     const dest = path.join(__dirname, "../www/projects", `${project.name}.html`);
@@ -81,7 +84,7 @@ function buildAppBundle(indexPage, projectPages) {
         pages[project.name] = project.html;
     });
 
-    const dest = path.join(__dirname, "../www/bundle.json");
+    const dest = path.join(__dirname, `../www/bundle-${version}.json`);
     fs.writeFileSync(dest, JSON.stringify(pages, null, 4));
 }
 
