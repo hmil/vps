@@ -166,10 +166,14 @@ hr {
 
 .footer {
   background-color: @secondary;
-  color: @main-light;
+  color: #000;
   margin: -20px;
   padding: 20px;
   margin-top: 50px;
+
+  a:not(:hover) {
+    color: #000;
+  }
 
   @media (min-width: @size-sm) {
     .footer-link {
