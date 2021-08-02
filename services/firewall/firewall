@@ -32,6 +32,7 @@ iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -t filter -A INPUT -p tcp --dport 8080 -j ACCEPT
 iptables -t filter -A INPUT -p tcp --dport 443 -j ACCEPT
 iptables -t filter -A INPUT -p tcp --dport 9010 -j ACCEPT # MQTT
+iptables -t filter -A INPUT -p tcp -s 172.17.0.0/16 --dport 9123 -j ACCEPT # MQTT private
 
 # VPN
 iptables -t filter -A INPUT -p udp --dport 1194 -j ACCEPT
