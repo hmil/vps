@@ -1,0 +1,396 @@
+<html>
+<head>
+    <title>Hadrien Milano - Resume</title>
+    <meta charset="UTF-8" />
+    <style type="text/css">
+    * {
+        box-sizing: border-box;
+        font-family: Helvetica, Arial;
+    }
+
+    html {
+        background-color: #ccc;
+    }
+
+    body {
+        background-color: white;
+        width: 756px;
+        margin: auto;
+        padding: 20px 15px;
+        padding-bottom: 30pt;
+        min-height: 100%;
+        position: relative;
+        font-size: 10pt;
+    }
+
+    @media print {
+        body {
+            padding: 5pt 15pt;
+            width: initial;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 3px;
+    }
+    h1 {
+        font-size: 18pt;
+    }
+    h2 {
+        font-size: 16pt;
+        margin-top: 10px;
+    }
+    h3 {
+        border-bottom: 1px rgb(213, 212, 212) solid;
+        margin-top: 13pt;
+        padding-left: 3pt;
+        margin-bottom: 5pt;
+    }
+
+    /* Both main titles */
+    h1, h2, .links {
+        text-align: center;
+    }
+
+    .links, .contact {
+        color: #777;
+    }
+    .contact {
+        list-style-type: none;
+        padding: 0;
+        margin: 3px;
+        margin-bottom: 12pt;
+        margin-top: 8pt;
+        float: left;
+    }
+    .status {
+        font-style: italic;
+        margin-bottom: 3px;
+        margin-top: 8px;
+    }
+    a {
+        color: inherit;
+    }
+
+    .head-sep {
+        clear: both;
+    }
+
+    ul.assets {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul.assets > li {
+        padding-bottom: 6pt;
+    }
+
+    ul.assets > li > .asset-head {
+        float: left;
+        font-weight: bold;
+    }
+
+    ul.assets > li > .asset-body {
+        margin-left: 110pt;
+    }
+
+    ul.assets h4, ul.assets p {
+        margin: 0;
+        margin-bottom: 3px;
+    }
+
+    section {
+        margin-bottom: 15pt;
+    }
+    footer {
+        position: absolute;
+        bottom: 0;
+        padding: 10pt 15pt;
+        text-align: right;
+        color: #555;
+        right: 0;
+    }
+    @media print {
+        footer {
+            padding: 0pt 15pt;
+        }
+    }
+
+    section, .contact {
+        margin-left: 8pt;
+        margin-right: 8pt;
+    }
+
+    .pb {
+        page-break-after: always;
+    }
+
+    </style>
+</head>
+<body>
+
+    <ul class="contact">
+        <!--<li>14, rue des bleuets</li>
+        <li>68320 Fortschwihr</li>
+        <li>France</li>-->
+        <li>(+41) 78 858 00 87</li>
+        <li><a href="mailto:hadrien.milano@gmail.com">hadrien.milano@gmail.com</a></li>
+        <li><a target="_blank" href="https://hmil.fr">https://hmil.fr</a></li>
+        <li><a href="https://github.com/hmil">https://github.com/hmil</a></li>
+    </ul>
+    <h1>Hadrien Milano</h1>
+    <hr class="head-sep">
+    <!-- <div class="quote">
+        <h2><em>“Robustness by design”</em></h2>
+        <br>
+        <em>Good code does not <strong>crash</strong>; It excludes all unwanted system states, and thereby removes all undefined behavior.<br>
+        Good code does not <strong>rot</strong>; It is constantly re-written and refactored to adapt to the changing constraints or needs.<br>
+        Good code does not <strong>break</strong>; System interfaces implement a specification which is checked at the boundaries.</em>
+        <br><br>
+        <em>Robust software does not emerge out of chaos; It is <strong>robust by design</strong>.</em>
+    </div> -->
+    <section>
+        <h3>Work</h3>
+        <ul class="assets">
+            <li>
+                <div class="asset-head">2019 - present</div>
+                <div class="asset-body">
+                    <h4><a href="https://www.appdynamics.com/">AppDynamics</a> &ndash; Software Architect (UI) &ndash; Lausanne, CH</h4>
+                    <p>
+                        Design and implementation of the UI platform on top of which features are developed by multiple teams around the world.<br>
+                        Driving a culture of documentation to enable teams in various time zones to collaborate effectively.
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">Jun. 2018 - 2019</div>
+                <div class="asset-body">
+                    <h4><a href="https://www.appdynamics.com/">AppDynamics</a> &ndash; Software Engineer (mobile agents) &ndash; Lausanne, CH</h4>
+                    <p>
+                        Developing monitoring agents for android, iOS, cordova, Xamarin and react-native.
+                        Refactoring and feature work on high load Java-based data collection cloud services.<br>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">Sep. 2017 - Mar. 2018</div>
+                <div class="asset-body">
+                    <h4><a href="https://elca.ch/">ELCA Informatique SA</a> &ndash; Master's project &ndash; Lausanne, CH</h4>
+                    <p>
+                        Research and development of a synchronization solution for mobile enterprise applications.
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">Aug. 2016 - Jan. 2017</div>
+                <div class="asset-body">
+                    <h4><a href="https://www.appdynamics.com/">AppDynamics</a> &ndash; Software Engineering Intern &ndash; San Francisco, USA</h4>
+                    <p>
+                        Development of internal tooling for the synthetic monitoring team with a high focus on software quality.
+                        <em>(distributed java back-end, TypeScript and Angular.js front-end, unit and e2e testing)</em>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">2014 - 2017</div>
+                <div class="asset-body">
+                    <h4>Freelance Software Developer &ndash; Lausanne, CH</h4>
+                    <p>
+                        Fullstack development of web applications
+                        <em>(PHP, JS, linux system administration)</em>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">2014 - 2017</div>
+                <div class="asset-body">
+                    <h4><a href="http://www.epfl.ch/">École Polytechnique Fédérale de Lausanne</a> &ndash; Teaching Assistant &ndash; Lausanne, CH</h4>
+                    <p>
+                        Answering questions and grading tests for the System programming, Java and Software Engineering classes
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">Summer 2013</div>
+                <div class="asset-body">
+                    <h4><a href="http://bugbuster.com" target="_blank">BugBuster SA</a> &ndash; Software Engineering Intern &ndash; Lausanne, CH</h4>
+                    <p>
+                        Implementation of a demonstration tool to showcase BugBuster's technology
+                        <em>(NodeJS, ReactJS)</em>
+                    </p>
+                </div>
+            </li>
+            <!--<li>
+                <div class="asset-head">Summer 2012</div>
+                <div class="asset-body">
+                    <h4>Lifeguard</h4>
+                    <p>Accredited lifeguard at a public pond</p>
+                </div>
+            </li>-->
+        </ul>
+    </section>
+    <section>
+        <h3>Studies</h3>
+        <ul class="assets">
+            <li>
+                <div class="asset-head">2012 - 2018</div>
+                <div class="asset-body">
+                    <h4>École polytechnique fédérale de Lausane (EPFL)</h4>
+                    <p><strong>Bachelor & Master</strong> degree in <strong>computer science</strong></p>
+            </li>
+            <!--<li>
+                <div class="asset-head">2009 - 2011</div>
+                <div class="asset-body">
+                    <h4>Lycée St. André, Colmar (France)</h4>
+                    <p><strong>Baccalauréat scientifique</strong> (engeneering science) with <strong>highest honours</strong></p>
+                </div>
+            </li>-->
+        </ul>
+    </section>
+    <section>
+        <h3>Sample Projects and Open Source</h3>
+        <ul class="assets">
+            <li>
+                <!-- <div class="asset-head">2012 - present</div> -->
+                <div class="asset-body">
+                    <!-- <h4><a href="https://files.hmil.fr/tool_dbg/" target="_blank">Tool debugger</a></h4> -->
+                    <p>View my projects portfolio at <a href="https://hmil.fr/" target="_blank">https://hmil.fr/</a>
+                        and open source contributions at <a href="https://github.com/hmil/" target="_blank">github.com/hmil</a>.</p>
+                </div>
+            </li>
+            <!-- <li>
+                <div class="asset-head">2018</div>
+                <div class="asset-body">
+                    <h4><a href="https://github.com/vaultage-pm/vaultage" target="_blank">Vaultage</a></h4>
+                    <p>Self-hosted password manager with client-side encryption.</p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">2016</div>
+                <div class="asset-body">
+                    <h4><a href="https://github.com/hmil/RosHTTP" target="_blank">RösHTTP</a></h4>
+                    <p>A library for Scala.js aimed at bridging the gap between Java and JavaScript HTTP client APIs</p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">2015</div>
+                <div class="asset-body">
+                    <h4><a href="http://courseadvisor.ch" target="_blank">CourseAdvisor.ch</a></h4>
+                    <p>A web-based platform for students to share their appreciations of EPFL courses</p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">2015</div>
+                <div class="asset-body">
+                    <h4><a href="https://www.youtube.com/watch?v=fEae1uH4HC4" target="_blank">OpenGL terrain generator</a></h4>
+                    <p>Procedural terrain generation in OpenGL with texturing, reflections, volumetric clouds and more</p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">2015</div>
+                <div class="asset-body">
+                    <h4><a href="https://files.hmil.fr/tool_dbg/" target="_blank">Tool debugger</a></h4>
+                    <p>Full featured debugger extension for a compiler developed in class written in scala and running in the browser</p>
+                </div>
+            </li> -->
+            <!-- <li>
+                <div class="asset-head">2014</div>
+                <div class="asset-body">
+                    <h4><a href="http://tunesquared.com/" target="_blank">tunesquared.com</a></h4>
+                    <p>Web-based social playlist application.</p>
+                </div>
+            </li> -->
+            <!-- <li>
+                <div class="asset-head">2009</div>
+                <div class="asset-body">
+                    <h4><a href="http://bit.ly/1gnaCnS" target="_blank">A windows game</a></h4>
+                    <p>Shooter game written in C with the SDL.</p>
+                </div>
+            </li>-->
+        </ul>
+    </section>
+    <!-- <section>
+        <h3>Awards</h3>
+        <ul class="assets">
+            <li>
+                <div class="asset-head">2013</div>
+                <div class="asset-body"><h4>First prize at a hackathon held by Facebook at EPFL</h4></div>
+            </li>
+            <li>
+                <div class="asset-head">2013</div>
+                <div class="asset-body">
+                    <h4>First prize <em>"trophée Innovez"</em> held by the french tech magazine <em>Science et Vie Junior</em></h4>
+                </div>
+            </li>
+        </ul>
+    </section> -->
+    <div class="pb"></div>
+    <section>
+        <h3>Skills</h3>
+        <ul class="assets">
+            <li>
+                <div class="asset-head">
+                    <h4>Web</h4>
+                </div>
+                <div class="asset-body">
+                    <p><strong>NodeJS</strong>, nginx, HTML5, CSS, LESS, PHP, MySQL<br />
+                        Expert in <strong>JavaScript</strong> and <strong>Typescript</strong> incl. testing, architecture and tooling<br>
+                        Experience with frameworks such as <strong>ReactJS</strong>, <strong>Angular</strong>, <strong>dropwizard</strong> and <strong>express</strong></p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">
+                    <h4>Native</h4>
+                </div>
+                <div class="asset-body">
+                    <p>Strong knowledge in <strong>Android, shell, C/C++</strong> and <strong>Java</strong><br/>
+                    Working knowledge of <strong>OpenGL</strong> and the <strong>linux</strong> kernel</p>
+                </div>
+            </li>
+            <li>
+                <div class="asset-head">
+                    <h4>Other</h4>
+                </div>
+                <div class="asset-body">
+                    <p>
+                        Setup and administration of <strong>linux systems</strong><br>
+                        Familiar with <strong>continuous delivery</strong> (<strong>Jenkins</strong>) and the <strong>agile</strong> methodology
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>Language</h3>
+        <ul class="assets">
+            <li>
+                <div class="asset-head">French</div>
+                <div class="asset-body">native</div>
+            </li>
+            <li>
+                <div class="asset-head">English</div>
+                <div class="asset-body">fluent</div>
+            </li>
+            <li>
+                <div class="asset-head">German</div>
+                <div class="asset-body">basics</div>
+            </li>
+        </ul>
+    </section>
+    <!--<section>
+        <h3>Soft skills</h3>
+        <ul class="assets">
+            <li>
+                <div class="asset-head">Sport</div>
+                <div class="asset-body">Swimming at national level until 2012, Handball</div>
+            </li>
+            <li>
+                <div class="asset-head">Music</div>
+                <div class="asset-body">play the piano and guitar. I like to jam on occasions</div>
+            </li>
+        </ul>
+    </section>-->
+
+    <footer>April 2021</footer>
+</body>
+</html>
