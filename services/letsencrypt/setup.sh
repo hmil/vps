@@ -1,8 +1,10 @@
 
 
 if [ -z "`which letsencrypt`" ]; then
-  add-apt-repository ppa:certbot/certbot
-  apt-get install letsencrypt
+  apt install python3-pip
+
+  pip3 install certbot
+  pip3 install certbot-dns-ovh
 fi
 
 if [ ! -e "/var/www/letsencrypt" ]; then
@@ -17,17 +19,6 @@ if [ "$?" -ne 0 ]; then
 fi
 
 root="root hmil.fr"
-travel="travel travel.hmil.fr"
-files="files files.hmil.fr"
-transmission="transmission transmission.hmil.fr"
-blog="blog blog.hmil.fr"
-cloud="cloud cloud.hmil.fr"
-www="www www.hmil.fr"
-services="services services.hmil.fr"
-mqtt="mqtt mqtt.hmil.fr"
-gaston="gaston gaston.hmil.fr"
-turingwars="turingwars turingwars.hmil.fr"
-red="red red.hmil.fr"
 
 setup() {
   if [ ! -e "/var/www/letsencrypt/$1" ]; then
@@ -37,7 +28,7 @@ setup() {
 }
 
 setup_wildcard() {
-  certbot -a certbot-dns-ovh certonly \
+  certbot certonly \
     --dns-ovh \
     --dns-ovh-credentials "${DISK_ROOT}/ovh.ini" \
     -d hmil.fr \
@@ -47,42 +38,6 @@ setup_wildcard() {
 case $1 in
   "root" )
     setup $root
-    ;;
-  "travel" )
-    setup $travel
-    ;;
-  "blog" )
-    setup $blog
-    ;;
-  "files" )
-    setup $files
-    ;;
-  "gaston" )
-    setup $gaston
-    ;;
-  "transmission" )
-    setup $transmission
-    ;;
-  "turingwars" )
-    setup $turingwars
-    ;;
-  "cloud" )
-    setup $cloud
-    ;;
-  "root" )
-    setup $root
-    ;;
-  "mqtt" )
-    setup $mqtt
-    ;;
-  "www" )
-    setup $www
-    ;;
-  "services" )
-    setup $services
-    ;;
-  "red")
-    setup $red
     ;;
   "wildcard" )
     setup_wildcard
