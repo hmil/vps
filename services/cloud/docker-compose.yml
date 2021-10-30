@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   owncloud:
-    image: "owncloud/server:10.3"
+    image: "owncloud/server:10.8"
     restart: always
     ports:
       - "127.0.0.1:${PORT_CLOUD}:8080"
@@ -35,7 +35,8 @@ services:
         tag: cloud
 
   db:
-    image: webhippie/mariadb:latest
+    image: mariadb:latest
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
     restart: always
     environment:
       - MARIADB_ROOT_PASSWORD=owncloud

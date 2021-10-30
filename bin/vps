@@ -116,7 +116,13 @@ do_config() {
 
 do_shell() {
   cd "$VPS_HOME/services/$1"
-  bash
+  if [ ! -z "$2" ]; then
+    shift
+    set -x
+    $@
+  else
+    bash
+  fi
 }
 
 usage() {

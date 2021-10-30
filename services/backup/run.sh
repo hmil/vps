@@ -18,4 +18,6 @@ for i in $BACKUP_TARGETS; do
 done
 
 # docker exec cloud_owncloud_1 /bin/bash -c 'sudo -u www-data ./occ files:scan --path=hmil/files/backups'
-docker exec -u www-data cloud_owncloud_1 /bin/bash -c './occ files:scan --path=hmil/files/backups'
+# docker exec -u www-data cloud_owncloud_1 /bin/bash -c './occ files:scan --path=hmil/files/backups'
+cd "$VPS_HOME"
+./bin/vps shell cloud docker-compose exec owncloud occ files:scan --path=hmil/files/backups
