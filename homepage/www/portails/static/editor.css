@@ -1,0 +1,286 @@
+:root {
+    font-family: sans-serif;
+    font-size: 13px;
+
+    --color-bg-main: #232325;
+    --color-bg-1: #38383b;
+    --color-bg-1-highlight: #4a4a4e;
+    --color-bg-2: #67676b;
+    --color-bg-2-highlight: #7a7a80;
+
+    --color-fg-main: #ccc;
+    --color-fg-highlight: #f5f4f4;
+    --color-fg-2: #9b9b9b;
+
+    --color-primary: #e4c00b;
+    --color-primary-highlight: #f9d00d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#app {
+    height: 100%;
+    width: 100%;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-main);
+    color: var(--color-fg-main);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.workbench {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.central-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+}
+
+.toolbar {
+    background-color: var(--color-bg-1);
+    height: 30px;
+    padding: 1px 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.toolbar .tool {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px var(--color-fg-2) solid;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.canvas {
+    background-color: var(--color-bg-2);
+    background-image: url('./checker.png');
+    background-size: 10px 10px;
+    flex-grow: 1;
+    position: relative;
+}
+
+.canvas-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.editor-dock {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.editor-panel {
+    background-color: var(--color-bg-1);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-top: 1px var(--color-bg-main) solid;
+}
+
+.editor-panel .panel-title {
+    background-color: var(--color-bg-1-highlight);
+    padding: 3px 5px;
+    font-weight: 600;
+}
+
+.editor-panel .panel-content {
+    flex-grow: 1;
+}
+
+.tabs-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tabs-content {
+    flex-grow: 1;
+}
+
+.tabs-header {
+    display: flex;
+    border-top: 1px var(--color-bg-1) solid;
+    background-color: var(--color-bg-1-highlight);
+    font-weight: 600;
+}
+
+.tabs-header > * {
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.tabs-header > .selected {
+    background-color: var(--color-bg-1);
+    border-bottom: 1px var(--color-primary) solid;
+}
+
+.tabs-header > :hover {
+    border-bottom: 1px var(--color-primary) solid;
+}
+
+.ui-list {
+    background-color: var(--color-bg-2);
+    padding: 5px 0;
+    height: 100%;
+    overflow: auto;
+}
+
+.ui-list .ui-list-item {
+    padding: 0 10px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.ui-list .ui-list-item.selected {
+    background-color: var(--color-bg-2-highlight);
+    color: var(--color-fg-highlight);
+}
+.ui-list .ui-list-item:hover {
+    background-color: var(--color-primary);
+    color: var(--color-fg-highlight);
+}
+.ui-list .ui-list-item.selected:hover {
+    background-color: var(--color-primary-highlight);
+    color: var(--color-fg-highlight);
+}
+.ui-list .ui-list-item:focus {
+    outline: none;
+}
+
+.ui-text-input {
+    border-radius: 2px;
+    border: 1px var(--color-bg-main) solid;
+    padding: 2px 5px;
+}
+
+.ui-editable-text-resting {
+    cursor: default;
+    padding: 2px 5px;
+    border: 1px transparent solid;
+}
+
+.ui-editable-text-resting:focus {
+    outline: none;
+    border: 1px var(--color-fg-main) dashed;
+}
+
+.ui-form {
+    padding: 5px;
+}
+
+.ui-form .ui-form-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.ui-form label {
+    font-weight: 600;
+    padding-right: 10px;
+}
+
+.ui-button {
+    background-color: var(--color-bg-1);
+    color: var(--color-fg-main);
+    border: 1px var(--color-bg-main) solid;
+    border-radius: 2px;
+    outline: none;
+    box-shadow: 0px 1px 1px #ffffff10 inset;
+    background: linear-gradient(0deg, var(--color-bg-1) 30%, var(--color-bg-1-highlight) 60%);
+}
+
+.ui-button.active {
+    background-color: var(--color-primary);
+    background: linear-gradient(0deg, var(--color-primary) 30%, var(--color-primary-highlight) 60%);
+    color: var(--color-fg-main-highlight);
+}
+
+.ui-button[disabled] {
+    background: var(--color-bg-1);
+    pointer-events: none;
+}
+
+.ui-button:not([disabled]):hover,
+.ui-button:not([disabled]):focus {
+    border-color: var(--color-primary);
+}
+
+input:not([type=checkbox]) {
+    color: var(--color-fg-main);
+    font-size: inherit;
+    outline: none;
+    width: 100%;
+}
+
+.objects-panel, .properties-panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.objects-panel .list-container,
+.properties-panel .list-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100px;
+}
+
+.panel-section-title {
+    margin: 2px 4px;
+}
+
+.tile-picker-tile {
+    width: 40px;
+    margin: 5px;
+    padding: 1px;
+    cursor: grab;
+}
+
+.tile-picker-tile.grabbing {
+    cursor: grabbing;
+}
+
+.tile-picker-tile:hover {
+    border: 1px var(--color-primary) solid;
+    padding: 0px;
+}
+
+.sprite-miniature {
+    height: 25px;
+    display: block;
+    margin-right: 3px;
+}
+
+.drag-image {
+    opacity: 0.5;
+    position: absolute;
+}
+
+.assets-folder {
+    cursor: pointer;
+}
+
+.assets-folder:hover {
+    background-color: #ffffff10;
+}

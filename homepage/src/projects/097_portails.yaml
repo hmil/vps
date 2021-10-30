@@ -1,0 +1,15 @@
+---
+
+title: Portails
+description: |-
+  A 2d platformer game prototype inspired by Portal.
+
+image: portails.jpg
+background: portails3.jpg
+actions:
+  - text: Try it live
+    link: /portails
+  - text: View code
+    link: https://github.com/hmil/portails
+
+date: 2021

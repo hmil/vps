@@ -1,0 +1,34 @@
+html {
+    background-color: #303c47;
+    color: #e4f2ff;
+    font-family: Helvetica, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+#app {
+    width: 1120px;
+    height: 630px;
+    /* width: 100%;
+    height: 100%; */
+}
+
+#app canvas {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
